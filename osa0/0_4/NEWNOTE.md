@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     participant browser
     participant server
@@ -43,3 +44,4 @@ sequenceDiagram
 
     Note over browser: The browser executes the callback function that renders the notes
     Note over browser, server: The content now includes the new note created by the user
+```
