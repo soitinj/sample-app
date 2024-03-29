@@ -49,7 +49,7 @@ const App = () => {
       setAll(updatedAll)
       setAvg( ( (updatedGood * 1) + (updatedBad * -1) ) / updatedAll )
       setPosPct(`${(updatedGood / updatedAll) * 100} %`)
-      setState(updatedState)  
+      setState(updatedState)
     }
   }
 
