@@ -1,31 +1,46 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import phoneService from './services/phonebook'
 import PersonList from './components/PersonList'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ]) 
+  const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterName, setFilterName] = useState('')
 
+  useEffect(() => {
+    phoneService.getAll()
+      .then(response => {
+        setPersons(response.data)
+      })
+  }, [])
+
   const handleSubmit = (event) => {
     event.preventDefault()
+    const oldPerson = persons.find(p => p.name === newName)
     if (newName === '' || newNumber === '') {
       alert("Will not add person with empty name or number")
-    } else if (persons.some(p => p.name === newName) ) {
-      alert(`${newName} is already added to phonebook`)
+    } else if (oldPerson !== undefined) {
+        if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+          phoneService.update({...oldPerson, number: newNumber}).then(() =>
+            phoneService.getAll().then(response =>
+              setPersons(response.data)
+            )
+          )
+      }
     } else {
       const newPerson = {
         name: newName,
         number: newNumber
       }
-      setPersons(persons.concat([newPerson]))
+      phoneService.create(newPerson)
+        .then(response => {
+          setPersons(persons.concat([response]))
+          setNewName('')
+          setNewNumber('')
+        })
     }
   }
 
@@ -51,9 +66,10 @@ const App = () => {
         nameChangeHandler={handleNameChange}
         numberChangeHandler={handleNumberChange}
         newName={newName}
-        newNumber={newNumber} />
+        newNumber={newNumber}
+        />
       <h2>Numbers</h2>
-      <PersonList persons={persons} filterName={filterName} />
+      <PersonList persons={persons} setPersonState={setPersons} filterName={filterName} />
     </div>
   )
 
