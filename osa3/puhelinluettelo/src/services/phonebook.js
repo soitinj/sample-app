@@ -7,8 +7,8 @@ const getAll = () => {
 }
 
 const getSingle = (person) => {
-    return axios.get(`${baseUrl}/${person.id}`)
-  }
+  return axios.get(`${baseUrl}/${person.id}`)
+}
   
 const create = async (person) => {
   const request = axios.post(`${baseUrl}`, person)

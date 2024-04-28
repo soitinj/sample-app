@@ -38,7 +38,7 @@ const App = () => {
           setDefaultNote()
         }).catch(error => {
           if (error.response.status === 404) setNotification({message: `Unable to find user ${newName} to update`, success: false})
-          else setNotification({message: `Request failed with code ${error.response.status}`, success: false})
+          else setNotification({message: `Updating failed with code ${error.response.status}: ${error.response.data.error}`, success: false})
           setDefaultNote()
         })
       }
@@ -55,7 +55,7 @@ const App = () => {
           setNotification({message: `Added ${newName}!`, success: true})
           setDefaultNote()
         }).catch(error => {
-          setNotification({message: `Adding ${newName} failed with code ${error.response.status} (was user already added?)`, success: false})
+          setNotification({message: `Adding ${newName} failed with code ${error.response.status}: \n${error.response.data.error}`, success: false})
           setDefaultNote()
         })
     }
