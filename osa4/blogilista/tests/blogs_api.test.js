@@ -5,16 +5,44 @@ const supertest = require('supertest')
 const helper = require('./test_helper')
 const app = require('../app')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 const api = supertest(app)
 
-describe('things', () => {
+let testuser1
+let testuser2
+let testBlogId
+
+describe('blog tests', () => {
 
   before(async () => {
     await Blog.deleteMany({})
+    await User.deleteMany({})
+    
+    await api.post('/api/users/')
+      .send({ username: 'jdoe', name: 'John Doe', password: '123' })
+    await api.post('/api/users/')
+      .send({ username: 'adelvey', name: 'Anna Delvey', password: '123' })
 
-    const promiseArray = helper.initialBlogs.map(async blog => await new Blog(blog).save())
+    const loginRequest1 = await api.post('/api/login')
+      .send({ username: 'jdoe', password: '123' })
+    const loginRequest2 = await api.post('/api/login')
+      .send({ username: 'adelvey', password: '123' })
+
+    testuser1 = loginRequest1.body
+    testuser2 = loginRequest2.body
+
+    const promiseArray = helper.initialBlogs.map(async blog => (
+      await api.post('/api/blogs/')
+        .set({ 'Authorization': `Bearer ${testuser1.token}` })
+        .send(blog)
+    ))
     await Promise.all(promiseArray)
+  
+    const response = await api.post(`/api/blogs/`)
+      .set({ 'Authorization': `Bearer ${testuser1.token}` })
+      .send(helper.testBlog)
+    testBlogId = response.body.id
     /* does not work: async in forEach
 
     helper.initialBlogs.forEach(async (blog) => {
@@ -52,6 +80,7 @@ describe('things', () => {
       'likes': 100
     }
     await api.post('/api/blogs/')
+      .set({ 'Authorization': `Bearer ${testuser2.token}` })
       .send(newBlog)
       .expect(201)
 
@@ -68,6 +97,7 @@ describe('things', () => {
     }
 
     await api.post('/api/blogs/')
+      .set({ 'Authorization': `Bearer ${testuser2.token}` })
       .send(newBlog)
       .expect(201)
 
@@ -85,6 +115,7 @@ describe('things', () => {
     }
 
     await api.post('/api/blogs/')
+      .set({ 'Authorization': `Bearer ${testuser2.token}` })
       .send(newBlog)
       .expect(400)
   })
@@ -96,6 +127,7 @@ describe('things', () => {
       'likes': 1
     }
     await api.post('/api/blogs/')
+      .set({ 'Authorization': `Bearer ${testuser2.token}` })
       .send(newBlog)
       .expect(400)
   })
@@ -108,6 +140,7 @@ describe('things', () => {
       'likes': 1
     }
     await api.post('/api/blogs/')
+      .set({ 'Authorization': `Bearer ${testuser2.token}` })
       .send(blogToBeDeleted)
       .expect(201)
 
@@ -115,6 +148,7 @@ describe('things', () => {
       .expect(200)
     const blogId = response.body.find(b => b.title === 'deleted blog').id
     await api.delete(`/api/blogs/${blogId}`)
+      .set({ 'Authorization': `Bearer ${testuser2.token}` })
       .expect(204)
 
     const newResponse = await api.get('/api/blogs/')
@@ -129,12 +163,24 @@ describe('things', () => {
     const oldLikes = originalBlog.likes
     const blogId = originalBlog.id
     await api.put(`/api/blogs/${blogId}`)
+      .set({ 'Authorization': `Bearer ${testuser2.token}` })
       .send({ likes: oldLikes + 1})
       .expect(204)
     const newResponse = await api.get('/api/blogs/')
       .expect(200)
     const updatedBlog = newResponse.body.find(b => b.title === 'React patterns')
     assert.strictEqual(updatedBlog.likes, oldLikes + 1)
+  })
+
+  test('deleting without login token returns 401', async () => {
+    await api.delete(`/api/blogs/${testBlogId}`)
+      .expect(401)
+  })
+
+  test('deleting with invalid login token returns 401', async () => {
+    await api.delete(`/api/blogs/${testBlogId}`)
+      .set({'Authorization': `Bearer ${testuser2.token}` })
+      .expect(401)
   })
 
   after(async () => {

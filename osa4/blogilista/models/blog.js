@@ -10,7 +10,11 @@ const blogSchema = mongoose.Schema({
     required: true
   },
   author: String,
-  likes: Number
+  likes: Number,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
 })
 
 /*const personSchema = new mongoose.Schema({
