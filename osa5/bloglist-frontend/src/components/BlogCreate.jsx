@@ -22,18 +22,18 @@ const BlogCreate = ({ setNotification }) => {
     <div>
       <Header text='create new blog'></Header>
       <form method='post' onSubmit={handleCreate}>
-        <label>
-          title:
+        <div>
+          <label className='create-label'>title:</label>
           <input type="text" name="title" onChange={(e) => setTitle(e.target.value)}></input>
-        </label>
-        <label>
-          url:
+        </div>
+        <div>
+          <label className='create-label'>url:</label>
           <input type="url" name="url" onChange={(e) => setUrl(e.target.value)}></input>
-        </label>
-        <label>
-          author:
+        </div>
+        <div>
+          <label className='create-label'>author:</label>
           <input type="text" name="author" onChange={(e) => setAuthor(e.target.value)}></input>
-        </label>
+        </div>
         <button type="submit" value="Submit">create</button>
       </form>
     </div>

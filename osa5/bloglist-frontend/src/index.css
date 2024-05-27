@@ -25,3 +25,10 @@ li {
 .success {
   color: green;
 }
+
+.create-label {
+  width: 48px;
+  display: inline-block;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
