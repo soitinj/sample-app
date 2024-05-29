@@ -1,10 +1,7 @@
-POST http://localhost:3003/api/blogs/
+POST http://localhost:3003/api/blogs/665712e6e2ab8ef84217d996/like
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkZWx2ZXkiLCJpZCI6IjY2NDRkODliNjA1NWRiNjRiYzYxMDZkZiIsImlhdCI6MTcxNjk4MjQ4MX0.pXVHIDEm62Zth84gOMeGCWug5CSqrfHvEo0NB8958L4
 
 {
-  "title": "yle news",
-  "author": "yle",
-  "url": "https://yle.fi/english",
-  "likes": 0
+  "likes": 1
 }
