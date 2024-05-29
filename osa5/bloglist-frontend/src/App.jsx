@@ -7,18 +7,11 @@ import LoginForm from './components/LoginForm'
 import BlogView from './components/BlogView'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null)
   const [notification, setNotification] = useState({ message: '', success: true })
   const [showNotif, setShowNotif] = useState(false)
-
-  useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
-  }, [])
 
   useEffect(() => {
     const loggedUser = window.localStorage.getItem('bloglistUser')
@@ -71,7 +64,7 @@ const App = () => {
 
   const blogList = () => {
     return (
-      <BlogView blogs={blogs} user={user ? user : { username: undefined, name: undefined }} setNotification={setNotification} setUser={setUser}></BlogView>
+      <BlogView user={user ? user : { username: undefined, name: undefined }} setNotification={setNotification} setUser={setUser}></BlogView>
     )
   }
 

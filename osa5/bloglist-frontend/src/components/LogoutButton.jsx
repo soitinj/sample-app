@@ -5,5 +5,5 @@ const LogoutButton = ({ logoutHandler }) => {
     </button>
   )
 }
-  
+
 export default LogoutButton

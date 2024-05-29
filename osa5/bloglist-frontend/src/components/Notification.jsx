@@ -1,11 +1,11 @@
 const Notification = ({ notification, show }) => {
   return (
     <>
-    {show && (
-      <div className={`notif ${notification.success ? "success" : "error"}`}>
-        {notification['message']}
-      </div>
-    )}
+      {show && (
+        <div className={`notif ${notification.success ? 'success' : 'error'}`}>
+          {notification['message']}
+        </div>
+      )}
     </>
   )
 }

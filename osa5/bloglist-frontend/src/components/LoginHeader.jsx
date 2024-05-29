@@ -1,4 +1,4 @@
-import LogoutButton from "./LogoutButton"
+import LogoutButton from './LogoutButton'
 
 const LoginHeader = ({ user, setUser }) => {
 
@@ -8,7 +8,7 @@ const LoginHeader = ({ user, setUser }) => {
   }
 
   return (
-    <div style={{ display: 'flex', alignItems: 'left' }}>
+    <div style={{ display: 'flex', alignItems: 'left', marginBottom: '10px' }}>
       <div>{user.name} logged in.</div>
       &nbsp;
       <LogoutButton logoutHandler={logoutHandler}></LogoutButton>

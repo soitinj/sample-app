@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Header from './Header'
 import blogService from '../services/blogs'
 
-const BlogCreate = ({ setNotification }) => {
+const BlogForm = ({ updateBlogs, hideForm, setNotification }) => {
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -12,9 +12,11 @@ const BlogCreate = ({ setNotification }) => {
     e.preventDefault()
     try {
       await blogService.create({ title, author, url })
-      setNotification({ message: `Blog ${title} by ${author} created!`, success: true })
+      setNotification({ message: `Blog ${title} by ${author} created!`, success: true })
+      hideForm()
+      await updateBlogs()
     } catch (e) {
-      setNotification({ message: e.response.data.error, success: false})
+      setNotification({ message: e.response.data.error, success: false })
     }
   }
 
@@ -40,4 +42,4 @@ const BlogCreate = ({ setNotification }) => {
   )
 }
 
-export default BlogCreate
+export default BlogForm
