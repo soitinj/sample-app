@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
+import Button from 'react-bootstrap/Button';
+import { Card } from 'react-bootstrap';
 
 const Blog = ({ setNotification, updateBlogs, blog }) => {
   const [toggleInfo, setToggleInfo] = useState(false)
-  const [buttonLabel, setButtonLabel] = useState('view')
+  const [ButtonLabel, setButtonLabel] = useState('view')
   const [likes, setLikes] = useState(blog.likes)
 
   const toggleBlogInfo = () => {
@@ -38,17 +40,22 @@ const Blog = ({ setNotification, updateBlogs, blog }) => {
   }
 
   return (
-    <div className='blog'>
-      <div>{blog.title}, {blog.author} <button onClick={toggleBlogInfo}>{buttonLabel}</button></div>
-      {toggleInfo && (
-        <>
-          <div>likes: {likes} <button onClick={likeBlog}>like 👍</button></div>
-          <div>added by: {blog.user.name}</div>
-          <a>{blog.url}</a>
-          <div><button onClick={deleteBlog}>remove</button></div>
-        </>
-      )}
-    </div>
+    <Card style={{ width: '18rem' }} className='border border-secondary rounded info'>
+      <Card.Body>
+        <Card.Title as='h6'>{blog.title}, {blog.author}</Card.Title>
+        {toggleInfo && (
+          <Card.Text as='div'>
+            <div>likes: {likes} <Button variant='success' onClick={likeBlog}>like 👍</Button></div>
+            <div>added by: {blog.user.name}</div>
+            <a href={blog.url}>{blog.url}</a>
+            <div><Button variant='danger' onClick={deleteBlog}>remove</Button></div>
+          </Card.Text>
+        )}
+      </Card.Body>
+      <Card.Footer>
+        <Button onClick={toggleBlogInfo}>{ButtonLabel}</Button>
+      </Card.Footer>
+    </Card>
   )
 }
 

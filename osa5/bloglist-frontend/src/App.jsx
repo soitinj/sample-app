@@ -3,8 +3,8 @@ import blogService from './services/blogs'
 import loginService from './services/auth'
 import Header from './components/Header'
 import Notification from './components/Notification'
-import LoginForm from './components/LoginForm'
-import BlogView from './components/BlogView'
+import LoginPage from './components/LoginPage'
+import MainContent from './components/MainContent'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -52,28 +52,46 @@ const App = () => {
 
   const loginForm = () => {
     return (
-      <LoginForm
+      <LoginPage
         usernameHandler={handleInputChange(setUsername)}
         username={username}
         passwordHandler={handleInputChange(setPassword)}
         password={password}
         submitHandler={handleLogin}
+        setNotifification={setNotification}
       />
     )
   }
 
-  const blogList = () => {
-    return (
-      <BlogView user={user ? user : { username: undefined, name: undefined }} setNotification={setNotification} setUser={setUser}></BlogView>
-    )
+  const tabs = () => {
+    return <MainContent
+      user={user}
+      setUser={setUser}
+      setNotification={setNotification} />
+    /*return (
+      <>
+        <LoginHeader user={user} setUser={setUser}></LoginHeader>
+        <Tabs defaultActiveKey='blogs' id='main-tabs' className='mb-3'>
+          <Tab eventKey='blogs' title='Blogs'>
+            <BlogView setNotification={setNotification}></BlogView>
+          </Tab>
+          <Tab eventKey='about' title='About'>
+            <AboutPage setKey={null} loggedIn={true}></AboutPage>
+          </Tab>
+          <Tab eventKey='stats' title='Stats'>
+            <StatsPage user={user}></StatsPage>
+          </Tab>
+        </Tabs>
+      </>
+    )*/
   }
 
   return (
     <div>
       <Header text={'Blogilista'} top={true}></Header>
-      <Notification notification={notification} show={showNotif}></Notification>
       {!user && loginForm()}
-      {user && blogList()}
+      {user && tabs()}
+      <Notification notification={notification} show={showNotif}></Notification>
     </div>
   )
 }

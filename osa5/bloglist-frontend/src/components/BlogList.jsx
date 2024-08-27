@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const BlogList = ({ setNotification, updateBlogs, blogs }) => {
   return (
-    <div>
+    <div className='d-flex flex-wrap'>
       {[...blogs].sort((a, b) => (b.likes - a.likes)).map(blog =>
         <Blog setNotification={setNotification} updateBlogs={updateBlogs} key={blog.id} blog={blog} />
       )}

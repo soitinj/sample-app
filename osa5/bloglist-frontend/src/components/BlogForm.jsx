@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Header from './Header'
 import blogService from '../services/blogs'
+import Button from 'react-bootstrap/Button';
 
 const BlogForm = ({ updateBlogs, hideForm, setNotification }) => {
 
@@ -12,7 +13,7 @@ const BlogForm = ({ updateBlogs, hideForm, setNotification }) => {
     e.preventDefault()
     try {
       await blogService.create({ title, author, url })
-      setNotification({ message: `Blog ${title} by ${author} created!`, success: true })
+      setNotification({ message: `Blog ${title} by ${author} created.`, success: true })
       hideForm()
       await updateBlogs()
     } catch (e) {
@@ -36,7 +37,7 @@ const BlogForm = ({ updateBlogs, hideForm, setNotification }) => {
           <label className='create-label'>author:</label>
           <input type="text" name="author" onChange={(e) => setAuthor(e.target.value)}></input>
         </div>
-        <button type="submit" value="Submit">create</button>
+        <Button variant='success' type="submit" value="Submit">create</Button>
       </form>
     </div>
   )
