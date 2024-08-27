@@ -9,6 +9,7 @@ const userSchema = mongoose.Schema({
   },
   name: String,
   passwordHash: String,
+  joined: Date,
   blogs: [
     {
       type: mongoose.Schema.Types.ObjectId,

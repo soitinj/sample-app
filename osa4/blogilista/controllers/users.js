@@ -14,6 +14,7 @@ userRouter.post('/', async (request, response) => {
   const user = new User({
     username: username,
     name: name,
+    joined: new Date(),
     passwordHash: passwordHash
   })
 
