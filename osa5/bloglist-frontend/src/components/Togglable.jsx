@@ -19,7 +19,7 @@ const Togglable = forwardRef((props, ref) => {
   })
 
   return (
-    <div>
+    <div className='mb-3'>
       <div style={hideWhenVisible}>
         <Button variant={props.buttonVariant ? props.buttonVariant : 'primary'} onClick={toggleVisibility}>{props.buttonLabel}</Button>
       </div>

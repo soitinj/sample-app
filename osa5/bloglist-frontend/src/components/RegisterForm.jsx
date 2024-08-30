@@ -13,9 +13,10 @@ const RegisterForm = ({ setNotification }) => {
 
   const registerHandler = async (event) => {
     event.preventDefault()
-    if (password === passwordAgain) {
+    if (registerPassword === registerPasswordAgain) {
       try {
-        await userService.register({ registerUsername, registerName, registerPassword })
+        console.log(setNotification)
+        await userService.register({ username: registerUsername, name: registerName, password: registerPassword })
         setNotification({ message: "Registered. You can now log in." })
       } catch (exception) {
         setNotification({ message: exception.message, success: false })

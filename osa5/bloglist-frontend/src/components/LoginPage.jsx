@@ -8,7 +8,6 @@ import AboutPage from './AboutPage';
 const LoginPage = ({ username, password, usernameHandler, passwordHandler, submitHandler, setNotification }) => {
 
   const [key, setKey] = useState('login');
-
   return (
     <>
     <Tabs activeKey={key} id='login-tabs' onSelect={(k) => setKey(k)} className='mb-3'>

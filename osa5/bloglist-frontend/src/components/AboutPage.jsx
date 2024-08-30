@@ -1,6 +1,7 @@
 import Header from './Header'
 import { Image, ListGroup } from 'react-bootstrap'
 import { FaInstagram, FaFacebook, FaTwitter } from 'react-icons/fa';
+import { IoIosMail } from 'react-icons/io'
 
 const AboutPage = ({ setKey }) => {
   return (
@@ -36,7 +37,7 @@ const AboutPage = ({ setKey }) => {
         <h3>Get in Touch</h3>
         <p>Have questions or feedback? We'd love to hear from you.</p>
         <ListGroup>
-            <ListGroup.Item><strong>Email: </strong><a href="mailto:your-email@blogilista.com">your-email@blogilista.com</a></ListGroup.Item>
+            <ListGroup.Item><strong>Email: <IoIosMail size={30} /></strong><a href="mailto:your-email@blogilista.com">your-email@blogilista.com</a></ListGroup.Item>
             <ListGroup.Item><strong>Social Media Links: </strong> 
                 <a href="https://facebook.com"><FaFacebook size={30} />Facebook</a> |&nbsp;
                 <a href="https://twitter.com"><FaTwitter size={30} />Twitter</a> |&nbsp;

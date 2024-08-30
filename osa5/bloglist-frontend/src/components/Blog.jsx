@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
 import Button from 'react-bootstrap/Button';
 import { Card } from 'react-bootstrap';
+import moment from 'moment';
 
 const Blog = ({ setNotification, updateBlogs, blog }) => {
   const [toggleInfo, setToggleInfo] = useState(false)
@@ -42,7 +43,8 @@ const Blog = ({ setNotification, updateBlogs, blog }) => {
   return (
     <Card style={{ width: '18rem' }} className='border border-secondary rounded info'>
       <Card.Body>
-        <Card.Title as='h6'>{blog.title}, {blog.author}</Card.Title>
+        <Card.Title>{blog.title}</Card.Title>
+        <Card.Subtitle className='text-muted'>{blog.author}</Card.Subtitle>
         {toggleInfo && (
           <Card.Text as='div'>
             <div>likes: {likes} <Button variant='success' onClick={likeBlog}>like 👍</Button></div>
@@ -54,6 +56,7 @@ const Blog = ({ setNotification, updateBlogs, blog }) => {
       </Card.Body>
       <Card.Footer>
         <Button onClick={toggleBlogInfo}>{ButtonLabel}</Button>
+        <small className='p-2 text-muted'>Added {moment(blog.added).fromNow()}</small>
       </Card.Footer>
     </Card>
   )

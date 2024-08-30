@@ -8,7 +8,7 @@ const LoginHeader = ({ user, setUser }) => {
   }
 
   return (
-    <div style={{ display: 'flex', alignItems: 'left', marginBottom: '10px' }}>
+    <div className='m-4' style={{ display: 'flex', alignItems: 'left' }}>
       <div>{user.name} logged in.</div>
       &nbsp;
       <LogoutButton logoutHandler={logoutHandler}></LogoutButton>

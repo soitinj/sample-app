@@ -1,21 +1,29 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import BlogList from './BlogList'
 import Header from './Header'
 import BlogForm from './BlogForm'
 import Togglable from './Togglable'
+import IGFeed from './IGFeed'
 
-const BlogView = ({ setNotification, blogs, updateBlogs }) => {
+const BlogView = ({ setNotification, blogs, updateBlogs, igFeed }) => {
   const blogCreateRef = useRef()
 
   return (
-    <div>
-      <Header text={'blogs'}></Header>
-      <Togglable buttonVariant='success' buttonLabel='create new blog' ref={blogCreateRef}>
-        <BlogForm updateBlogs={updateBlogs} hideForm={() => blogCreateRef.current.toggleVisibility()} setNotification={setNotification}></BlogForm>
-      </Togglable>
-      <br></br>
-      <BlogList setNotification={setNotification} updateBlogs={updateBlogs} blogs={blogs}></BlogList>
+    <div className='container m-0'>
+      <div className='row m-0 p-0'>
+        <div className='col-md-9'>
+          <Header text={'blogs'}></Header>
+          <Togglable buttonVariant='success' buttonLabel='create new blog' ref={blogCreateRef}>
+            <BlogForm updateBlogs={updateBlogs} hideForm={() => blogCreateRef.current.toggleVisibility()} setNotification={setNotification}></BlogForm>
+          </Togglable>
+          <BlogList setNotification={setNotification} updateBlogs={updateBlogs} blogs={blogs}></BlogList>
+        </div>
+        <div className='col-md-3'>
+          <h3>Very Important Feed</h3>
+          <IGFeed postIds={igFeed.postIds}></IGFeed>
+        </div>
+      </div>
     </div>
   )
 }

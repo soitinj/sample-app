@@ -58,7 +58,7 @@ const App = () => {
         passwordHandler={handleInputChange(setPassword)}
         password={password}
         submitHandler={handleLogin}
-        setNotifification={setNotification}
+        setNotification={setNotification}
       />
     )
   }

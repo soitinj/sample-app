@@ -5,33 +5,52 @@ import StatsPage from './StatsPage'
 import BlogView from './BlogView'
 import AboutPage from './AboutPage'
 import blogService from '../services/blogs'
+import feedService from '../services/feed'
 
 const MainContent = ({ user, setUser, setNotification }) => {
 
   const [blogs, setBlogs] = useState([])
+  const [igFeed, setIgFeed] = useState({ postIds: [] })
 
-  const updateBlogs = useCallback(async () => {
+  const updateBlogs = async () => {
     try {
       const bs = await blogService.getAll()
       setBlogs(bs)
     } catch (e) {
       setNotification({ message: e.response.data.error || e.response.status, success: false })
     }
-  }, [setBlogs, setNotification])
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       await updateBlogs()
     }
     fetchData()
-  }, [updateBlogs])
+  }, [])
+
+  useEffect(() => {
+    const fetchFeed = async () => {
+      try {
+        const ps = await feedService.getAll()
+        setIgFeed(ps)
+      } catch (e) {
+        setNotification({ message: e.response.data.error || e.response.status, success: false})
+      }
+    }
+    fetchFeed()
+  }, [])
 
   return (
     <>
       <LoginHeader user={user} setUser={setUser}></LoginHeader>
-      <Tabs defaultActiveKey='blogs' id='main-tabs' className='mb-3'>
+      <Tabs
+        defaultActiveKey='blogs'
+        id='main-tabs'
+        className='mb-3'
+        onSelect={ async (k) => { if (k === 'stats') await updateBlogs() }}
+      >
         <Tab eventKey='blogs' title='Blogs'>
-          <BlogView blogs={blogs} updateBlogs={updateBlogs} setNotification={setNotification}></BlogView>
+          <BlogView blogs={blogs} updateBlogs={updateBlogs} setNotification={setNotification} igFeed={igFeed}></BlogView>
         </Tab>
         <Tab eventKey='about' title='About'>
           <AboutPage setKey={null} ></AboutPage>
