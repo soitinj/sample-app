@@ -1,6 +1,5 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
-const User = require('../models/user')
 
 blogsRouter.get('/', async (_request, response) => {
   const blogs = await Blog.find({})
@@ -12,7 +11,7 @@ blogsRouter.post('/', async (request, response) => {
   /*if (request.body.title === undefined) {
     response.status(400).json({ error: 'title not given' })
   }*/
-  const newBlog = { ...request.body, likes: request.body.likes || 0, user: request.user.id }
+  const newBlog = { ...request.body, added: new Date(), likes: request.body.likes || 0, user: request.user.id }
   const blog = new Blog(newBlog)
   result = await blog.save()
   response.status(201).json(result)
