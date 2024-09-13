@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Header from './Header'
 import blogService from '../services/blogs'
-import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button'
 
 const BlogForm = ({ updateBlogs, hideForm, setNotification }) => {
 
