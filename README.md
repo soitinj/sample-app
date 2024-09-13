@@ -1,2 +1,2 @@
 # full-stack-open-soitinj
-Full Stack Open -kurssi
+Simple CSR React project to test migrating to Astro/React or Next.js with.
