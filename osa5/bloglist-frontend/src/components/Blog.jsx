@@ -1,14 +1,17 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
-import Button from 'react-bootstrap/Button';
-import { Card } from 'react-bootstrap';
-import moment from 'moment';
+import commentService from '../services/comments'
+import { Card, Button } from 'react-bootstrap'
+import CommentView from './CommentView'
+import moment from 'moment'
 
-const Blog = ({ setNotification, updateBlogs, blog }) => {
+const Blog = ({ user, setNotification, updateBlogs, blog }) => {
   const [toggleInfo, setToggleInfo] = useState(false)
+  const [commentsShow, setCommentsShow] = useState(false)
   const [ButtonLabel, setButtonLabel] = useState('view')
   const [likes, setLikes] = useState(blog.likes)
+  const [comments, setComments] = useState([])
 
   const toggleBlogInfo = () => {
     setButtonLabel(toggleInfo ? 'view' : 'hide')
@@ -40,6 +43,20 @@ const Blog = ({ setNotification, updateBlogs, blog }) => {
     }
   }
 
+  const updateComments = async () => {
+    const cs = await commentService.get(blog.id)
+    setComments(cs)
+  }
+
+  const viewComments = async () => {
+    try {
+      await updateComments()
+      setCommentsShow(true)
+    } catch (e) {
+      setNotification({ message: e.response.data.error || e.response.status, success: false })
+    }
+  }
+
   return (
     <Card style={{ width: '18rem' }} className='border border-secondary rounded info'>
       <Card.Body>
@@ -50,7 +67,10 @@ const Blog = ({ setNotification, updateBlogs, blog }) => {
             <div>likes: {likes} <Button variant='success' onClick={likeBlog}>like 👍</Button></div>
             <div>added by: {blog.user.name}</div>
             <a href={blog.url}>{blog.url}</a>
-            <div><Button variant='danger' onClick={deleteBlog}>remove</Button></div>
+            <div><Button className='mb-1' variant='primary' onClick={viewComments}>view comments</Button></div>
+            {blog.user.username === user.username &&
+              <div><Button variant='danger' onClick={deleteBlog}>remove</Button></div>
+            }
           </Card.Text>
         )}
       </Card.Body>
@@ -58,6 +78,14 @@ const Blog = ({ setNotification, updateBlogs, blog }) => {
         <Button onClick={toggleBlogInfo}>{ButtonLabel}</Button>
         <small className='p-2 text-muted'>Added {moment(blog.added).fromNow()}</small>
       </Card.Footer>
+      <CommentView
+        show={commentsShow}
+        setShow={setCommentsShow}
+        comments={comments}
+        blog={blog}
+        setNotification={setNotification} 
+        updateComments={updateComments}
+      />
     </Card>
   )
 }
