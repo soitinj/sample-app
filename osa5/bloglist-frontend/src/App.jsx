@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { setToken } from './libs/util'
 import blogService from './services/blogs'
 import loginService from './services/auth'
 import Header from './components/Header'
@@ -18,7 +19,7 @@ const App = () => {
     if (loggedUser) {
       const user = JSON.parse(loggedUser)
       setUser(user)
-      blogService.setToken(user.token)
+      setToken(user.token)
     }
   }, [])
 
@@ -34,7 +35,7 @@ const App = () => {
     try {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('bloglistUser', JSON.stringify(user))
-      blogService.setToken(user.token)
+      setToken(user.token)
       setUser(user)
     } catch (exception) {
       setNotification({ message: 'invalid credentials', success: false })

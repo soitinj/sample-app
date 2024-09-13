@@ -50,7 +50,7 @@ const MainContent = ({ user, setUser, setNotification }) => {
         onSelect={ async (k) => { if (k === 'stats') await updateBlogs() }}
       >
         <Tab eventKey='blogs' title='Blogs'>
-          <BlogView blogs={blogs} updateBlogs={updateBlogs} setNotification={setNotification} igFeed={igFeed}></BlogView>
+          <BlogView user={user} blogs={blogs} updateBlogs={updateBlogs} setNotification={setNotification} igFeed={igFeed}></BlogView>
         </Tab>
         <Tab eventKey='about' title='About'>
           <AboutPage setKey={null} ></AboutPage>

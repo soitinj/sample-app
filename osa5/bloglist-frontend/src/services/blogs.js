@@ -1,13 +1,6 @@
 import axios from 'axios'
+import { getConfig } from '../libs/util'
 const baseUrl = '/api/blogs'
-
-let token = null
-
-const setToken = (newToken) => {
-  token = `Bearer ${newToken}`
-}
-
-const getConfig = () => ({ headers: { Authorization: token } })
 
 const getAll = async () => {
   const response = await axios.get(baseUrl)
@@ -38,4 +31,4 @@ const remove = async (blogId) => {
   return response
 }
 
-export default { getAll, setToken, create, like, update, remove }
+export default { getAll, create, like, update, remove }
