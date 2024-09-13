@@ -22,7 +22,7 @@ app.use('/api/blogs', middleware.userExtractor, blogRouter)
 app.use('/api/users', userRouter)
 app.use('/api/login', loginRouter)
 app.use('/api/feed', feedRouter)
-app.use('/api/comments', commentRouter)
+app.use('/api/comments', middleware.userExtractor, commentRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)

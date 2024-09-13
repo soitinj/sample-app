@@ -7,11 +7,8 @@ commentRouter.get('/:blogId', async (request, response) => {
   response.status(200).json(comments)
 })
   
-commentRouter.post('/', async (request, response) => {
-  /*if (request.body.title === undefined) {
-    response.status(400).json({ error: 'title not given' })
-  }*/
-  const newComment = { ...request.body, posted: new Date(), user: request.user.id }
+commentRouter.post('/:blogId', async (request, response) => {
+  const newComment = { ...request.body, posted: new Date(), user: request.user.id, blog: request.params.blogId }
   const comment = new Comment(newComment)
   result = await comment.save()
   response.status(201).json(result)
