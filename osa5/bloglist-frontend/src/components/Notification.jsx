@@ -16,7 +16,7 @@ const Notification = ({ notification, show }) => {
   return (
     <>
       {show && (
-        <ToastContainer style={{ zIndex: 1 }} position='bottom-center'>
+        <ToastContainer style={{ zIndex: 1080 }} position='bottom-center'>
           <Toast bg={notif.bg}>
             <Toast.Header closeButton={false}>{notif.header}</Toast.Header>
             <Toast.Body className='text-white'>
