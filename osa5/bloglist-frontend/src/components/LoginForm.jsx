@@ -1,4 +1,4 @@
-import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button'
 
 const LoginForm = ({ username, password, usernameHandler, passwordHandler, submitHandler }) => {
   return (

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import userService from '../services/user'
-import Form from 'react-bootstrap/Form';
+import Form from 'react-bootstrap/Form'
 import { Button } from 'react-bootstrap'
 
 
@@ -17,7 +17,7 @@ const RegisterForm = ({ setNotification }) => {
       try {
         console.log(setNotification)
         await userService.register({ username: registerUsername, name: registerName, password: registerPassword })
-        setNotification({ message: "Registered. You can now log in." })
+        setNotification({ message: 'Registered. You can now log in.' })
       } catch (exception) {
         setNotification({ message: exception.message, success: false })
       }
@@ -26,7 +26,7 @@ const RegisterForm = ({ setNotification }) => {
       setRegisterName('')
       setRegisterUsername('')
     } else {
-      setNotification({ message: "Passwords did not match!", success: false })
+      setNotification({ message: 'Passwords did not match', success: false })
       setRegisterPassword('')
       setRegisterPasswordAgain('')
     }
