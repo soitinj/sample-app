@@ -83,7 +83,7 @@ const Blog = ({ user, setNotification, updateBlogs, blog }) => {
         setShow={setCommentsShow}
         comments={comments}
         blog={blog}
-        setNotification={setNotification} 
+        setNotification={setNotification}
         updateComments={updateComments}
       />
     </Card>

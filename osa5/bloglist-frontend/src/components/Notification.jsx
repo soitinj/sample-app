@@ -1,4 +1,4 @@
-import { Toast, ToastContainer } from "react-bootstrap"
+import { Toast, ToastContainer } from 'react-bootstrap'
 
 const Notification = ({ notification, show }) => {
   const notif = notification.success ?
@@ -6,7 +6,7 @@ const Notification = ({ notification, show }) => {
       header: 'Success!',
       bg: 'success',
       ...notification
-    } :  
+    } :
     {
       header: 'Error occurred.',
       bg: 'danger',

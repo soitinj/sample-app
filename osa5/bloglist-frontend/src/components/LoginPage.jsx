@@ -1,15 +1,14 @@
-import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button'
 import LoginForm from './LoginForm'
-import RegisterForm from './RegisterForm';
-import { Tabs, Tab } from 'react-bootstrap';
-import { useState } from 'react';
-import AboutPage from './AboutPage';
+import RegisterForm from './RegisterForm'
+import { Tabs, Tab } from 'react-bootstrap'
+import { useState } from 'react'
+import AboutPage from './AboutPage'
 
 const LoginPage = ({ username, password, usernameHandler, passwordHandler, submitHandler, setNotification }) => {
 
-  const [key, setKey] = useState('login');
+  const [key, setKey] = useState('login')
   return (
-    <>
     <Tabs activeKey={key} id='login-tabs' onSelect={(k) => setKey(k)} className='mb-3'>
       <Tab eventKey='login' title='Login'>
         <LoginForm
@@ -32,7 +31,6 @@ const LoginPage = ({ username, password, usernameHandler, passwordHandler, submi
         <AboutPage setKey={setKey} loggedIn={false}></AboutPage>
       </Tab>
     </Tabs>
-    </>
   )
 }
 

@@ -34,7 +34,7 @@ const MainContent = ({ user, setUser, setNotification }) => {
         const ps = await feedService.getAll()
         setIgFeed(ps)
       } catch (e) {
-        setNotification({ message: e.response.data.error || e.response.status, success: false})
+        setNotification({ message: e.response.data.error || e.response.status, success: false })
       }
     }
     fetchFeed()

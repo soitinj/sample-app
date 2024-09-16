@@ -1,5 +1,5 @@
-import { Card, ListGroup } from "react-bootstrap"
-import moment from 'moment';
+import { Card, ListGroup } from 'react-bootstrap'
+import moment from 'moment'
 
 const StatsPage = ({ user, blogs }) => {
   const sortedByLikes = [...blogs].sort((a, b) => (b.likes - a.likes))
@@ -11,7 +11,7 @@ const StatsPage = ({ user, blogs }) => {
       <>
         <Card className='w-25 m-3'>
           <Card.Title>Site stats</Card.Title>
-          <ListGroup className="list-group-flush">
+          <ListGroup className='list-group-flush'>
             <ListGroup.Item>Most popular blog: <small className='text-muted'>{ `${sortedByLikes[0].title} (${sortedByLikes[0].likes} likes)` }</small></ListGroup.Item>
             <ListGroup.Item>Newest blog: <small className='text-muted'>{ `${sortedByDate[0].title} (Added ${moment(sortedByDate[0].added).fromNow()}.)` }</small></ListGroup.Item>
             <ListGroup.Item>Oldest blog: <small className='text-muted'>{ `${sortedByDate[sortedByDate.length - 1].title} (Added ${moment(sortedByDate[sortedByDate.length - 1].added).fromNow()}.)` }</small></ListGroup.Item>
