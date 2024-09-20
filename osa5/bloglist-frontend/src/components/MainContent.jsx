@@ -48,6 +48,7 @@ const MainContent = ({ user, setUser, setNotification }) => {
         id='main-tabs'
         className='mb-3'
         onSelect={ async (k) => { if (k === 'stats') await updateBlogs() }}
+        unmountOnExit={ true }
       >
         <Tab eventKey='blogs' title='Blogs'>
           <BlogView user={user} blogs={blogs} updateBlogs={updateBlogs} setNotification={setNotification} igFeed={igFeed}></BlogView>

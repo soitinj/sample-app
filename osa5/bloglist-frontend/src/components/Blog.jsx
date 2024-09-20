@@ -5,6 +5,7 @@ import commentService from '../services/comments'
 import { Card, Button } from 'react-bootstrap'
 import CommentView from './CommentView'
 import moment from 'moment'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const Blog = ({ user, setNotification, updateBlogs, blog }) => {
   const [toggleInfo, setToggleInfo] = useState(false)
@@ -62,17 +63,26 @@ const Blog = ({ user, setNotification, updateBlogs, blog }) => {
       <Card.Body>
         <Card.Title>{blog.title}</Card.Title>
         <Card.Subtitle className='text-muted'>{blog.author}</Card.Subtitle>
-        {toggleInfo && (
-          <Card.Text as='div'>
-            <div>likes: {likes} <Button variant='success' onClick={likeBlog}>like 👍</Button></div>
-            <div>added by: {blog.user.name}</div>
-            <a href={blog.url}>{blog.url}</a>
-            <div><Button className='mb-1' variant='primary' onClick={viewComments}>view comments</Button></div>
-            {blog.user.username === user.username &&
-              <div><Button variant='danger' onClick={deleteBlog}>remove</Button></div>
-            }
-          </Card.Text>
-        )}
+        <AnimatePresence>
+          {toggleInfo && (
+            <Card.Text as='div'>
+              <motion.div
+                initial={{ opacity: 0, x: -100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 100 }}
+                transition={{ duration: 0.5, ease: "backOut" }}
+              >
+                <div>likes: {likes} <Button variant='success' onClick={likeBlog}>like 👍</Button></div>
+                <div>added by: {blog.user.name}</div>
+                <a href={blog.url}>{blog.url}</a>
+                <div><Button className='mb-1' variant='primary' onClick={viewComments}>view comments</Button></div>
+                {blog.user.username === user.username &&
+                  <div><Button variant='danger' onClick={deleteBlog}>remove</Button></div>
+                }
+              </motion.div>
+            </Card.Text>
+          )}
+        </AnimatePresence>
       </Card.Body>
       <Card.Footer>
         <Button onClick={toggleBlogInfo}>{ButtonLabel}</Button>
