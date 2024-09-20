@@ -1,12 +1,12 @@
 import { useState, useImperativeHandle, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import Button from 'react-bootstrap/Button'
+import { motion } from 'framer-motion'
 
+// This is not a good component. It creates the button as well.
+// This makes it difficult to utilize in different situations.
 const Togglable = forwardRef((props, ref) => {
   const [visible, setVisible] = useState(false)
-
-  const hideWhenVisible = { display: visible ? 'none' : '' }
-  const showWhenVisible = { display: visible ? '' : 'none' }
 
   const toggleVisibility = () => {
     setVisible(!visible)
@@ -20,13 +20,20 @@ const Togglable = forwardRef((props, ref) => {
 
   return (
     <div className='mb-3'>
-      <div style={hideWhenVisible}>
+      {!visible && (
         <Button variant={props.buttonVariant ? props.buttonVariant : 'primary'} onClick={toggleVisibility}>{props.buttonLabel}</Button>
-      </div>
-      <div style={showWhenVisible}>
-        {props.children}
-        <Button variant='warning' onClick={toggleVisibility}>cancel</Button>
-      </div>
+      )}
+      {visible && (
+        <motion.div className='border'
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, ease: "backOut" }}
+          style={{ boxShadow: "10px 10px 0 rgba(0, 0, 0, 0.2)", padding: '1rem', borderRadius: '8px' }}
+        >
+          {props.children}
+          <Button variant='warning' onClick={toggleVisibility}>cancel</Button>
+        </motion.div>
+      )}
     </div>
   )
 })
