@@ -15,7 +15,7 @@ const App = () => {
   const [showNotif, setShowNotif] = useState(false)
 
   useEffect(() => {
-    const loggedUser = window.localStorage.getItem('bloglistUser')
+    const loggedUser = window.localStorage.getItem('sampleappUser')
     if (loggedUser) {
       const user = JSON.parse(loggedUser)
       setUser(user)
@@ -34,7 +34,7 @@ const App = () => {
     event.preventDefault()
     try {
       const user = await loginService.login({ username, password })
-      window.localStorage.setItem('bloglistUser', JSON.stringify(user))
+      window.localStorage.setItem('sampleappUser', JSON.stringify(user))
       setToken(user.token)
       setUser(user)
     } catch (exception) {
@@ -89,7 +89,7 @@ const App = () => {
 
   return (
     <div>
-      <Header text={'Blogilista'} top={true}></Header>
+      <Header text={'Sample App'} top={true}></Header>
       {!user && loginForm()}
       {user && tabs()}
       <Notification notification={notification} show={showNotif}></Notification>
