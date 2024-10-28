@@ -89,7 +89,7 @@ const App = () => {
 
   return (
     <div>
-      <Header text={'Blogilista'} top={true}></Header>
+      <Header text={'Sample App'} top={true}></Header>
       {!user && loginForm()}
       {user && tabs()}
       <Notification notification={notification} show={showNotif}></Notification>
