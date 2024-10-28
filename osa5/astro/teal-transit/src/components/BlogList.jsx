@@ -11,14 +11,14 @@ const BlogList = ({ user, setNotification, updateBlogs, blogs }) => {
 
   return (
     <>
-      <div className='d-flex flex-wrap'>
+      <div className='d-flex flex-wrap gap-1'>
         {chunks.length > 0 && chunks[pageNumber].map(blog =>
           <Blog user={user} setNotification={setNotification} updateBlogs={updateBlogs} key={blog.id} blog={blog} />
         )}
       </div>
       <ButtonGroup>
         {Array.from({ length: Math.min(chunks.length, 10) }, (_, idx) => (
-            <Button variant='outline-primary' onClick={() => setPageNumber(idx)} key={idx}>{idx + 1}</Button>
+            <Button variant={pageNumber === idx ? 'primary' : 'outline-primary'} onClick={() => setPageNumber(idx)} key={idx}>{idx + 1}</Button>
           )
         )}
       </ButtonGroup>

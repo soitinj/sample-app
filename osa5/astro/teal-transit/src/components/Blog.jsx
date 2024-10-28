@@ -2,7 +2,7 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
 import commentService from '../services/comments'
-import { Card, Button } from 'react-bootstrap'
+import { Card, Button, ListGroup } from 'react-bootstrap'
 import CommentView from './CommentView'
 import moment from 'moment'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -58,33 +58,67 @@ const Blog = ({ user, setNotification, updateBlogs, blog }) => {
     }
   }
 
+  const getImageSrc = () => {
+    switch (blog.linkType) {
+      case 'img':
+        return blog.url
+      case 'text':
+        return '/rat.png'
+      default:
+        return '/rat2.jpg'
+    }
+  }
+
   return (
-    <Card style={{ width: '18rem' }} className='border border-secondary rounded info'>
-      <Card.Body>
-        <Card.Title>{blog.title}</Card.Title>
-        <Card.Subtitle className='text-muted'>{blog.author}</Card.Subtitle>
-        <AnimatePresence>
-          {toggleInfo && (
-            <Card.Text as='div'>
-              <motion.div
-                initial={{ opacity: 0, x: -100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 100 }}
-                transition={{ duration: 0.5, ease: "backOut" }}
-              >
-                <div>likes: {likes} <Button variant='success' onClick={likeBlog}>like 👍</Button></div>
-                <div>added by: {blog.user.name}</div>
-                <a href={blog.url}>{blog.url}</a>
-                <div><Button className='mb-1' variant='primary' onClick={viewComments}>view comments</Button></div>
-                {blog.user.username === user.username &&
-                  <div><Button variant='danger' onClick={deleteBlog}>remove</Button></div>
-                }
-              </motion.div>
-            </Card.Text>
-          )}
-        </AnimatePresence>
-      </Card.Body>
-      <Card.Footer>
+    <Card style={{ width: '19rem', height: '100%' }} className='border border-secondary rounded info'>
+      <img src={getImageSrc()} style={{ objectFit: 'contain', objectPosition: 'left', maxHeight:'4rem' }}></img>
+      <Card.Title style={{ minHeight: '3rem' }}>{blog.title}</Card.Title>
+      <Card.Subtitle className='text-muted'>{blog.user.username}</Card.Subtitle>
+      <AnimatePresence>
+        {toggleInfo && (
+          <motion.div
+            initial={{ opacity: 0, x: -100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 100 }}
+            transition={{ duration: 0.5, ease: "backOut" }}
+          >
+            { blog.text &&
+              <Card.Body className='border-top bg-light'>
+                <Card.Text>{blog.text}</Card.Text>
+              </Card.Body>
+            }
+            <ListGroup className='border-top' variant='flush'>
+              <ListGroup.Item>
+                added by: {blog.user.name}
+              </ListGroup.Item>
+              { blog.author && 
+                <ListGroup.Item>
+                  Original author: {blog.author}
+                </ListGroup.Item>
+              }
+              {blog.url &&
+                <ListGroup.Item>
+                  <Card.Link href={blog.url}>{blog.url}</Card.Link>
+                </ListGroup.Item>
+              }
+              <ListGroup.Item>
+                <div>
+                  <Button className='mb-1' variant='success' onClick={likeBlog}>like 👍</Button> likes: {likes}
+                </div>
+                <div>
+                  <Button className='mb-1' variant='primary' onClick={viewComments}>view comments</Button>
+                </div>
+                <div>
+                  {blog.user.username === user.username &&
+                    <Button variant='danger' onClick={deleteBlog}>remove</Button>
+                  }
+                </div>
+              </ListGroup.Item>
+            </ListGroup>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <Card.Footer style={{ backgroundColor: '#e0ffff' }}>
         <Button onClick={toggleBlogInfo}>{ButtonLabel}</Button>
         <small className='p-2 text-muted'>Added {moment(blog.added).fromNow()}</small>
       </Card.Footer>

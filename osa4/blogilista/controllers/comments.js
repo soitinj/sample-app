@@ -14,4 +14,9 @@ commentRouter.post('/:blogId', async (request, response) => {
   response.status(201).json(result)
 })
 
+commentRouter.post('/:blogId/:commentId/like', async (request, response) => {
+  await Comment.findByIdAndUpdate(request.params.commentId, { $inc: { likes: 1 } })
+  response.status(204).end()
+})
+
 module.exports = commentRouter

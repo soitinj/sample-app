@@ -5,16 +5,23 @@ const blogSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  url: {
-    type: String,
-    required: true
-  },
+  url: String,
+  text: String,
   author: String,
   likes: Number,
   added: Date,
+  linkType: {
+    type: String, // 'img', 'link', 'text'
+    enum: ['img', 'link', 'text'],
+    required: true
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
+  },
+  thumbnail: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Thumbnail'
   }
 })
 
