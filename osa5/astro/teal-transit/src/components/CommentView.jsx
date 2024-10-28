@@ -10,7 +10,7 @@ const CommentView = ({ show, setShow, comments, blog, updateComments, setNotific
       </Modal.Header>
       <Modal.Body>
         {(comments.length > 0 && [...comments].map(c =>
-          <Comment comment={c} />
+          <Comment comment={c} key={c.id} />
         )) || <div className='mb-3'>no comments yet...</div>
         }
         <CommentForm blog={blog} updateComments={updateComments} setNotification={setNotification}></CommentForm>
