@@ -9,7 +9,7 @@ const CommentView = ({ show, setShow, comments, blog, updateComments, setNotific
         <Modal.Title>Comments on {blog.title} ({blog.likes} likes)</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {(comments.length > 0 && [...comments].map(c =>
+        {(comments.length > 0 && [...comments].sort((a, b) => (a.posted > b.posted) ? -1 : 1).map(c =>
           <Comment comment={c} key={c.id} />
         )) || <div className='mb-3'>no comments yet...</div>
         }

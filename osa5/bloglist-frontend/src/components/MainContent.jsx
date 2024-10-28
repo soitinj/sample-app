@@ -51,7 +51,10 @@ const MainContent = ({ user, setUser, setNotification }) => {
         unmountOnExit={ true }
       >
         <Tab eventKey='blogs' title='Blogs'>
-          <BlogView user={user} blogs={blogs} updateBlogs={updateBlogs} setNotification={setNotification} igFeed={igFeed}></BlogView>
+          <BlogView header='blogs' user={user} blogs={blogs} updateBlogs={updateBlogs} setNotification={setNotification} igFeed={igFeed}></BlogView>
+        </Tab>
+        <Tab eventKey='my-blogs' title='My Blogs'>
+          <BlogView header='my blogs' user={user} blogs={[...blogs].filter(blog => blog.user.username === user.username)} updateBlogs={updateBlogs} setNotification={setNotification}></BlogView>
         </Tab>
         <Tab eventKey='about' title='About'>
           <AboutPage setKey={null} ></AboutPage>
