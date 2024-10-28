@@ -1,13 +1,15 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import BlogList from './BlogList'
 import Header from './Header'
 import BlogForm from './BlogForm'
 import Togglable from './Togglable'
 import IGFeed from './IGFeed'
+import SimpleTextFilter from './SimpleTextFilter'
 
 const BlogView = ({ user, header, setNotification, blogs, updateBlogs, igFeed }) => {
   const blogCreateRef = useRef()
+  const [filteredBlogs, setFilteredBlogs] = useState(null)
 
   return (
     <div className='container m-0'>
@@ -17,7 +19,8 @@ const BlogView = ({ user, header, setNotification, blogs, updateBlogs, igFeed })
           <Togglable buttonVariant='success' buttonLabel='create new blog' ref={blogCreateRef}>
             <BlogForm updateBlogs={updateBlogs} hideForm={() => blogCreateRef.current.toggleVisibility()} setNotification={setNotification}></BlogForm>
           </Togglable>
-          <BlogList user={user} setNotification={setNotification} updateBlogs={updateBlogs} blogs={blogs}></BlogList>
+          <SimpleTextFilter data={blogs} setData={setFilteredBlogs} filterLabel='blogs' filterField='title'></SimpleTextFilter>
+          <BlogList user={user} setNotification={setNotification} updateBlogs={updateBlogs} blogs={filteredBlogs || blogs}></BlogList>
         </div>
         {igFeed?.postIds && (
           <div className='col-md-3'>
