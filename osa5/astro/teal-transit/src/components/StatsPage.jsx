@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 
 const StatsPage = ({ user, blogs }) => {
   const sortedByLikes = [...blogs].sort((a, b) => (b.likes - a.likes))
-  const sortedByDate = [...blogs].sort((a, b) => (a > b) ? 1 : -1)
+  const sortedByDate = [...blogs].sort((a, b) => (a.added > b.added) ? -1 : 1)
   const userBlogs = [...blogs].filter(blog => blog.user.username === user.username)
 
   const controls = useAnimationControls()
@@ -32,7 +32,7 @@ const StatsPage = ({ user, blogs }) => {
             </ListGroup.Item>
             <ListGroup.Item>
               <motion.div animate={controls} custom={1} initial={{ opacity: 0, x: -50 }}>
-              Newest blog: <small className='text-muted'>{ `${sortedByDate[0].title} (Added ${moment(sortedByDate[0].added).fromNow()}.)` }</small>
+                Newest blog: <small className='text-muted'>{ `${sortedByDate[0].title} (Added ${moment(sortedByDate[0].added).fromNow()}.)` }</small>
               </motion.div>
             </ListGroup.Item>
             <ListGroup.Item>

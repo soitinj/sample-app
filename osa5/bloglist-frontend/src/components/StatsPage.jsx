@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 
 const StatsPage = ({ user, blogs }) => {
   const sortedByLikes = [...blogs].sort((a, b) => (b.likes - a.likes))
-  const sortedByDate = [...blogs].sort((a, b) => (a > b) ? 1 : -1)
+  const sortedByDate = [...blogs].sort((a, b) => (a.added > b.added) ? -1 : 1)
   const userBlogs = [...blogs].filter(blog => blog.user.username === user.username)
 
   const controls = useAnimationControls()
