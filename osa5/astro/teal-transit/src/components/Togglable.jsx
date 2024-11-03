@@ -1,6 +1,6 @@
 import { useState, useImperativeHandle, forwardRef } from 'react'
 import PropTypes from 'prop-types'
-import Button from 'react-bootstrap/Button'
+import { Button } from 'react-bootstrap'
 import { motion } from 'framer-motion'
 
 // This is not a good component. It creates the button as well.
