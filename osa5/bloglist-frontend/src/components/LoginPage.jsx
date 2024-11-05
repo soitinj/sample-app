@@ -1,7 +1,6 @@
-import Button from 'react-bootstrap/Button'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
-import { Tabs, Tab } from 'react-bootstrap'
+import { Tabs, Tab, Button } from 'react-bootstrap'
 import { useState } from 'react'
 import AboutPage from './AboutPage'
 

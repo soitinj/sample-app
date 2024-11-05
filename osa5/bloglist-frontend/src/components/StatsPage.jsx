@@ -32,7 +32,7 @@ const StatsPage = ({ user, blogs }) => {
             </ListGroup.Item>
             <ListGroup.Item>
               <motion.div animate={controls} custom={1} initial={{ opacity: 0, x: -50 }}>
-              Newest blog: <small className='text-muted'>{ `${sortedByDate[0].title} (Added ${moment(sortedByDate[0].added).fromNow()}.)` }</small>
+                Newest blog: <small className='text-muted'>{ `${sortedByDate[0].title} (Added ${moment(sortedByDate[0].added).fromNow()}.)` }</small>
               </motion.div>
             </ListGroup.Item>
             <ListGroup.Item>

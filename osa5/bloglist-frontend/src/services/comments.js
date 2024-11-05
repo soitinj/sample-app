@@ -14,4 +14,11 @@ const create = async (comment, blogId) => {
   return response.data
 }
 
-export default { get, create }
+const rate = async (commentId, blogId, like) => {
+  const config = getConfig()
+  const endpoint = like ? 'like' : 'dislike'
+  const response = await axios.post(`${baseUrl}/${blogId}/${commentId}/${endpoint}`, {}, config)
+  return response.data
+}
+
+export default { get, create, rate }
