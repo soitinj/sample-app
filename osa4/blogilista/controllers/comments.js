@@ -6,7 +6,7 @@ commentRouter.get('/:blogId', async (request, response) => {
     .populate('user', { username: 1, name: 1 })
   response.status(200).json(comments)
 })
-  
+
 commentRouter.post('/:blogId', async (request, response) => {
   const newComment = { ...request.body, posted: new Date(), user: request.user.id, blog: request.params.blogId }
   const comment = new Comment(newComment)
@@ -14,8 +14,14 @@ commentRouter.post('/:blogId', async (request, response) => {
   response.status(201).json(result)
 })
 
+// Should be put since liking should only be possible once per comment
 commentRouter.post('/:blogId/:commentId/like', async (request, response) => {
   await Comment.findByIdAndUpdate(request.params.commentId, { $inc: { likes: 1 } })
+  response.status(204).end()
+})
+
+commentRouter.post('/:blogId/:commentId/dislike', async (request, response) => {
+  await Comment.findByIdAndUpdate(request.params.commentId, { $inc: { likes: -1 } })
   response.status(204).end()
 })
 
