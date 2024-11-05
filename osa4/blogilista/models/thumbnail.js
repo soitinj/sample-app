@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const thumbnailSchema = mongoose.Schema({
-  imgdata: {
+  imgData: {
     type: String,
     required: true,
   },

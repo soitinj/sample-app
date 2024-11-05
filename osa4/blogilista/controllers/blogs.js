@@ -1,11 +1,13 @@
 const blogsRouter = require('express').Router()
+const sharp = require('sharp')
 const { default: axios } = require('axios')
 const Blog = require('../models/blog')
+const Thumbnail = require('../models/thumbnail')
 
 blogsRouter.get('/', async (_request, response) => {
   const blogs = await Blog.find({})
     .populate('user', { username: 1, name: 1 })
-    .populate('thumbnail', { imgdata: 1 })
+    .populate('thumbnail', { imgData: 1 })
   response.status(200).json(blogs)
 })
 
@@ -21,7 +23,7 @@ blogsRouter.post('/', async (request, response) => {
     const imgfetch = await axios.get(request.body.url, { responseType: 'arraybuffer' })
     const resizedImg = await sharp(imgfetch.data)
       .resize(100, 100, { fit: 'contain', position: 'center' })
-    const img = new Thumbnail(resizedImg.toString('base64'))
+    const img = new Thumbnail({ imgData: resizedImg.toString('base64') })
     imgResult = await img.save()
   }
   response.status(201).json(result)
