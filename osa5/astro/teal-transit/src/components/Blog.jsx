@@ -7,7 +7,7 @@ import CommentView from './CommentView'
 import moment from 'moment'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const Blog = ({ user, setNotification, updateBlogs, blog }) => {
+const Blog = ({ user, setNotification, updateBlogs, blog, imageSrc }) => {
   const [toggleInfo, setToggleInfo] = useState(false)
   const [commentsShow, setCommentsShow] = useState(false)
   const [ButtonLabel, setButtonLabel] = useState('view')
@@ -58,20 +58,9 @@ const Blog = ({ user, setNotification, updateBlogs, blog }) => {
     }
   }
 
-  const getImageSrc = () => {
-    switch (blog.linkType) {
-      case 'img':
-        return blog.url
-      case 'text':
-        return '/rat.png'
-      default:
-        return '/rat2.jpg'
-    }
-  }
-
   return (
     <Card style={{ width: '19rem', height: '100%' }} className='border border-secondary rounded info'>
-      <img src={getImageSrc()} style={{ objectFit: 'contain', objectPosition: 'left', maxHeight:'4rem' }}></img>
+      <img src={imageSrc} loading='lazy' decoding='async' style={{ objectFit: 'contain', objectPosition: 'left', maxHeight: '4rem' }}></img>
       <Card.Title style={{ minHeight: '3rem' }}>{blog.title}</Card.Title>
       <Card.Subtitle className='text-muted'>{blog.user.username}</Card.Subtitle>
       <AnimatePresence>

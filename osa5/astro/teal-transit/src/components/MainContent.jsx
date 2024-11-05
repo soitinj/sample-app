@@ -12,14 +12,14 @@ const MainContent = ({ user, setUser, setNotification }) => {
   const [blogs, setBlogs] = useState([])
   const [igFeed, setIgFeed] = useState({ postIds: [] })
 
-  const updateBlogs = async () => {
+  const updateBlogs = useCallback(async () => {
     try {
       const bs = await blogService.getAll()
       setBlogs(bs)
     } catch (e) {
       setNotification({ message: e.response.data.error || e.response.status, success: false })
     }
-  }
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
