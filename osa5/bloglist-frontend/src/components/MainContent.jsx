@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from 'react'
-import { Tabs, Tab } from 'react-bootstrap'
+import { useState, useEffect } from 'react'
+import { Tabs, Tab, Button } from 'react-bootstrap'
 import LoginHeader from './LoginHeader'
 import StatsPage from './StatsPage'
 import BlogView from './BlogView'
@@ -33,9 +33,17 @@ const MainContent = ({ setNotification }) => {
     fetchFeed()
   }, [])
 
+  const scrollToEnd = () => {
+    document.body.scrollIntoView({
+      block: 'end',
+      behavior: 'smooth'
+    })
+  }
+
   return (
     <>
       <LoginHeader user={user}></LoginHeader>
+      <Button onClick={scrollToEnd}>Scroll to bottom</Button>
       <Tabs
         defaultActiveKey='blogs'
         id='main-tabs'
