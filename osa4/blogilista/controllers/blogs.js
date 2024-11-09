@@ -58,8 +58,13 @@ blogsRouter.put('/:id', async (request, response) => {
 })
 
 blogsRouter.post('/:id/like', async (request, response) => {
-  await Blog.findByIdAndUpdate(request.params.id, { $inc: { likes: 1 } }, { new: true, runValidators: true, context: 'query' })
-  response.status(204).end()
+  const blog = await Blog.findByIdAndUpdate(request.params.id, { $inc: { likes: 1 } }, { new: true, runValidators: true, context: 'query' })
+    .populate('user', { username: 1, name: 1 })
+  if (blog) {
+    response.status(201).json(blog)
+  } else {
+    response.status(404).end()
+  }
 })
 
 module.exports = blogsRouter
