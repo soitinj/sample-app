@@ -1,5 +1,5 @@
 import Header from './Header'
-import { Image, ListGroup } from 'react-bootstrap'
+import { ListGroup } from 'react-bootstrap'
 import { FaInstagram, FaFacebook, FaTwitter } from 'react-icons/fa'
 import { IoIosMail } from 'react-icons/io'
 
@@ -12,7 +12,7 @@ const AboutPage = ({ setKey }) => {
         <h3>Our Story</h3>
         <p>Sample App was launched in 2024 with one simple goal: to create a space where people can share, discover, and connect through the power of blogging. What began as a small idea has grown into a vibrant community of writers and readers from around the world.</p>
 
-        <Image src='../../landscape.jpg' rounded />
+        <img src='/landscape.jpg' rounded />
 
         <h3>Our Mission</h3>
         <p>Our mission is to empower voices. We believe everyone has a story to tell, and [Your Website Name] is the place where those stories can be shared and celebrated. Whether you&apos;re an experienced blogger or just getting started, we&apos;re here to amplify your voice.</p>
