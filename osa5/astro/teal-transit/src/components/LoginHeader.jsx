@@ -1,10 +1,16 @@
+import { useDispatch } from 'react-redux'
+import { logout } from '../reducers/userReducer'
 import LogoutButton from './LogoutButton'
+import { useSelector } from 'react-redux'
 
-const LoginHeader = ({ user, setUser }) => {
+const LoginHeader = () => {
+
+  const dispatch = useDispatch()
+
+  const user = useSelector(({ user }) => user)
 
   const logoutHandler = () => {
-    window.localStorage.clear()
-    setUser(null)
+    dispatch(logout())
   }
 
   return (

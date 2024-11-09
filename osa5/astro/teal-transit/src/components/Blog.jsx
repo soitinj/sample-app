@@ -1,28 +1,32 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import blogService from '../services/blogs'
 import commentService from '../services/comments'
 import { Card, Button, ListGroup } from 'react-bootstrap'
 import CommentView from './CommentView'
 import moment from 'moment'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useDispatch } from 'react-redux'
+import { removeBlog, likeBlog } from '../reducers/blogReducer'
+import { useSelector } from 'react-redux'
 
-const Blog = ({ user, setNotification, updateBlogs, blog, imageSrc }) => {
+const Blog = ({ setNotification, blog, imageSrc }) => {
   const [toggleInfo, setToggleInfo] = useState(false)
   const [commentsShow, setCommentsShow] = useState(false)
   const [ButtonLabel, setButtonLabel] = useState('view')
-  const [likes, setLikes] = useState(blog.likes)
   const [comments, setComments] = useState([])
+
+  const dispatch = useDispatch()
+
+  const user = useSelector(({ user }) => user)
 
   const toggleBlogInfo = () => {
     setButtonLabel(toggleInfo ? 'view' : 'hide')
     setToggleInfo(!toggleInfo)
   }
 
-  const likeBlog = async () => {
+  const rateBlog = async () => {
     try {
-      await blogService.like(blog.id)
-      setLikes(likes + 1)
+      dispatch(likeBlog(blog))
     } catch (e) {
       setNotification({ message: e.response.data.error || e.response.status, success: false })
     }
@@ -31,8 +35,7 @@ const Blog = ({ user, setNotification, updateBlogs, blog, imageSrc }) => {
   const deleteBlog = async () => {
     if (window.confirm(`Delete blog ${blog.title} by ${blog.author}?`)) {
       try {
-        await blogService.remove(blog.id)
-        await updateBlogs()
+        dispatch(removeBlog(blog))
         setNotification({ message: `Deleted blog ${blog.title} by ${blog.author}.`, success: true })
       } catch (e) {
         if (e.response.status === 401) {
@@ -92,7 +95,7 @@ const Blog = ({ user, setNotification, updateBlogs, blog, imageSrc }) => {
               }
               <ListGroup.Item>
                 <div>
-                  <Button className='mb-1' variant='success' onClick={likeBlog}>like 👍</Button> likes: {likes}
+                  <Button className='mb-1' variant='success' onClick={rateBlog}>like 👍</Button> likes: {blog.likes}
                 </div>
                 <div>
                   <Button className='mb-1' variant='primary' onClick={viewComments}>view comments</Button>
@@ -125,7 +128,6 @@ const Blog = ({ user, setNotification, updateBlogs, blog, imageSrc }) => {
 
 Blog.propTypes = {
   setNotification: PropTypes.func.isRequired,
-  updateBlogs: PropTypes.func.isRequired,
   blog: PropTypes.object.isRequired
 }
 

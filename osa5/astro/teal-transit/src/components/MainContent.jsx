@@ -4,29 +4,22 @@ import LoginHeader from './LoginHeader'
 import StatsPage from './StatsPage'
 import BlogView from './BlogView'
 import AboutPage from './AboutPage'
-import blogService from '../services/blogs'
 import feedService from '../services/feed'
+import { getBlogs } from '../reducers/blogReducer'
+import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
-const MainContent = ({ user, setUser, setNotification }) => {
+const MainContent = ({ setNotification }) => {
 
-  const [blogs, setBlogs] = useState([])
   const [igFeed, setIgFeed] = useState({ postIds: [] })
 
-  const updateBlogs = useCallback(async () => {
-    try {
-      const bs = await blogService.getAll()
-      setBlogs(bs)
-    } catch (e) {
-      setNotification({ message: e.response.data.error || e.response.status, success: false })
-    }
-  }, [])
+  const user = useSelector(({ user }) => user)
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    const fetchData = async () => {
-      await updateBlogs()
-    }
-    fetchData()
-  }, [])
+    dispatch(getBlogs())
+  }, [dispatch])
 
   useEffect(() => {
     const fetchFeed = async () => {
@@ -42,25 +35,24 @@ const MainContent = ({ user, setUser, setNotification }) => {
 
   return (
     <>
-      <LoginHeader user={user} setUser={setUser}></LoginHeader>
+      <LoginHeader user={user}></LoginHeader>
       <Tabs
         defaultActiveKey='blogs'
         id='main-tabs'
         className='mb-3'
-        onSelect={ async (k) => { if (k === 'stats') await updateBlogs() }}
         unmountOnExit={ true }
       >
         <Tab eventKey='blogs' title='Blogs'>
-          <BlogView header='blogs' user={user} blogs={blogs} updateBlogs={updateBlogs} setNotification={setNotification} igFeed={igFeed}></BlogView>
+          <BlogView header='blogs' user={user} byUser={false} setNotification={setNotification} igFeed={igFeed}></BlogView>
         </Tab>
         <Tab eventKey='my-blogs' title='My Blogs'>
-          <BlogView header='my blogs' user={user} blogs={[...blogs].filter(blog => blog.user.username === user.username)} updateBlogs={updateBlogs} setNotification={setNotification}></BlogView>
+          <BlogView header='my blogs' user={user} byUser={true} setNotification={setNotification}></BlogView>
         </Tab>
         <Tab eventKey='about' title='About'>
           <AboutPage setKey={null} ></AboutPage>
         </Tab>
         <Tab eventKey='stats' title='Stats'>
-          <StatsPage blogs={blogs} user={user}></StatsPage>
+          <StatsPage user={user}></StatsPage>
         </Tab>
       </Tabs>
     </>

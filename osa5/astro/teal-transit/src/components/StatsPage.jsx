@@ -2,8 +2,11 @@ import { Card, ListGroup } from 'react-bootstrap'
 import moment from 'moment'
 import { useAnimationControls, motion } from 'framer-motion'
 import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
-const StatsPage = ({ user, blogs }) => {
+const StatsPage = () => {
+  const blogs = useSelector(({ blogs }) => blogs)
+  const user = useSelector(({ user }) => user)
   const sortedByLikes = [...blogs].sort((a, b) => (b.likes - a.likes))
   const sortedByDate = [...blogs].sort((a, b) => (a.added > b.added) ? -1 : 1)
   const userBlogs = [...blogs].filter(blog => blog.user.username === user.username)
