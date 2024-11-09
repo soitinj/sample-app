@@ -1,23 +1,24 @@
 import { useState } from 'react'
 import Header from './Header'
-import blogService from '../services/blogs'
 import { Button, Form } from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
+import { createBlog } from '../reducers/blogReducer'
 
-const BlogForm = ({ updateBlogs, hideForm, setNotification }) => {
+const BlogForm = ({ hideForm, setNotification }) => {
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [text, setText] = useState('')
   const [linkType, setLinkType] = useState('text')
+  const dispatch = useDispatch()
 
   const handleCreate = async (e) => {
     e.preventDefault()
     try {
-      await blogService.create({ title, author, url, linkType, text })
+      dispatch(createBlog({ title, author, url, linkType, text }))
       setNotification({ message: `Blog ${title} by ${author} created.`, success: true })
       hideForm()
-      await updateBlogs()
     } catch (e) {
       setNotification({ message: e.response.data.error, success: false })
     }

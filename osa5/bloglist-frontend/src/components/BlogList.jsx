@@ -15,7 +15,7 @@ const getImageSrc = (blog) => {
   }
 }
 
-const BlogList = ({ user, setNotification, updateBlogs, blogs }) => {
+const BlogList = ({ setNotification, blogs }) => {
   const [pageNumber, setPageNumber] = useState(0)
   const chunks = useMemo(() => {
     const sortedBlogs = [...blogs].sort((a, b) => (b.likes - a.likes))
@@ -26,7 +26,7 @@ const BlogList = ({ user, setNotification, updateBlogs, blogs }) => {
     <>
       <div className='d-flex flex-wrap gap-1'>
         {chunks.length > 0 && chunks[pageNumber].map(blog =>
-          <Blog user={user} setNotification={setNotification} updateBlogs={updateBlogs} key={blog.id} blog={blog} imageSrc={getImageSrc(blog)} />
+          <Blog setNotification={setNotification} key={blog.id} blog={blog} imageSrc={getImageSrc(blog)} />
         )}
       </div>
       <ButtonGroup>
@@ -41,7 +41,6 @@ const BlogList = ({ user, setNotification, updateBlogs, blogs }) => {
 
 BlogList.propTypes = {
   setNotification: PropTypes.func.isRequired,
-  updateBlogs: PropTypes.func.isRequired,
   blogs: PropTypes.array.isRequired
 }
 

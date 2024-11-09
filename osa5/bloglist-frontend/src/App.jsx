@@ -1,25 +1,27 @@
 import { useState, useEffect } from 'react'
 import { setToken } from './libs/util'
-import blogService from './services/blogs'
 import loginService from './services/auth'
 import Header from './components/Header'
 import Notification from './components/Notification'
 import LoginPage from './components/LoginPage'
 import MainContent from './components/MainContent'
+import { useDispatch } from 'react-redux'
+import { login, logout, userFromCache } from './reducers/userReducer'
+import { useSelector } from 'react-redux'
 
 const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
   const [notification, setNotification] = useState({ message: '', success: true })
   const [showNotif, setShowNotif] = useState(false)
 
+  const dispatch = useDispatch()
+  const user = useSelector(({ user }) => user)
+
   useEffect(() => {
-    const loggedUser = window.localStorage.getItem('bloglistUser')
-    if (loggedUser) {
-      const user = JSON.parse(loggedUser)
-      setUser(user)
-      setToken(user.token)
+    const cachedUser = window.localStorage.getItem('bloglistUser')
+    if (cachedUser) {
+      dispatch(userFromCache(cachedUser))
     }
   }, [])
 
@@ -33,10 +35,7 @@ const App = () => {
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      const user = await loginService.login({ username, password })
-      window.localStorage.setItem('bloglistUser', JSON.stringify(user))
-      setToken(user.token)
-      setUser(user)
+      dispatch(login(username, password))
     } catch (exception) {
       setNotification({ message: 'invalid credentials', success: false })
     } finally {
@@ -67,7 +66,6 @@ const App = () => {
   const tabs = () => {
     return <MainContent
       user={user}
-      setUser={setUser}
       setNotification={setNotification} />
     /*return (
       <>
