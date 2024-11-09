@@ -9,9 +9,15 @@ const LoginHeader = ({ user, setUser }) => {
 
   return (
     <div className='m-4' style={{ display: 'flex', alignItems: 'left' }}>
-      <div>{user.name} logged in.</div>
-      &nbsp;
-      <LogoutButton logoutHandler={logoutHandler}></LogoutButton>
+      {user && (
+        <div>
+          <div>{user.name} logged in.</div>
+          <LogoutButton logoutHandler={logoutHandler}></LogoutButton>
+        </div>
+      )}
+      {!user &&
+        <div>Not logged in. <a href='/login'>Login here</a></div>
+      }
     </div>
   )
 }
