@@ -7,13 +7,10 @@ import AboutPage from './AboutPage'
 import feedService from '../services/feed'
 import { getBlogs } from '../reducers/blogReducer'
 import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
 
 const MainContent = ({ setNotification }) => {
 
   const [igFeed, setIgFeed] = useState({ postIds: [] })
-
-  const user = useSelector(({ user }) => user)
 
   const dispatch = useDispatch()
 
@@ -42,7 +39,7 @@ const MainContent = ({ setNotification }) => {
 
   return (
     <>
-      <LoginHeader user={user}></LoginHeader>
+      <LoginHeader></LoginHeader>
       <Button onClick={scrollToEnd}>Scroll to bottom</Button>
       <Tabs
         defaultActiveKey='blogs'
@@ -51,16 +48,16 @@ const MainContent = ({ setNotification }) => {
         unmountOnExit={ true }
       >
         <Tab eventKey='blogs' title='Blogs'>
-          <BlogView header='blogs' user={user} byUser={false} setNotification={setNotification} igFeed={igFeed}></BlogView>
+          <BlogView header='blogs' byUser={false} setNotification={setNotification} igFeed={igFeed}></BlogView>
         </Tab>
         <Tab eventKey='my-blogs' title='My Blogs'>
-          <BlogView header='my blogs' user={user} byUser={true} setNotification={setNotification}></BlogView>
+          <BlogView header='my blogs' byUser={true} setNotification={setNotification}></BlogView>
         </Tab>
         <Tab eventKey='about' title='About'>
           <AboutPage setKey={null} ></AboutPage>
         </Tab>
         <Tab eventKey='stats' title='Stats'>
-          <StatsPage user={user}></StatsPage>
+          <StatsPage></StatsPage>
         </Tab>
       </Tabs>
     </>
