@@ -5,9 +5,9 @@ import { Card, Button, ListGroup } from 'react-bootstrap'
 import CommentView from './CommentView'
 import moment from 'moment'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useDispatch } from 'react-redux'
-import { removeBlog, likeBlog } from '../reducers/blogReducer'
-import { useSelector } from 'react-redux'
+import blogActions from '../nanostores/blogStore'
+import { userStore } from '../nanostores/userStore'
+import { useStore } from '@nanostores/react'
 
 const Blog = ({ setNotification, blog, imageSrc }) => {
   const [toggleInfo, setToggleInfo] = useState(false)
@@ -15,9 +15,7 @@ const Blog = ({ setNotification, blog, imageSrc }) => {
   const [ButtonLabel, setButtonLabel] = useState('view')
   const [comments, setComments] = useState([])
 
-  const dispatch = useDispatch()
-
-  const user = useSelector(({ user }) => user)
+  const $user = useStore(userStore)
 
   const toggleBlogInfo = () => {
     setButtonLabel(toggleInfo ? 'view' : 'hide')
@@ -26,7 +24,7 @@ const Blog = ({ setNotification, blog, imageSrc }) => {
 
   const rateBlog = async () => {
     try {
-      dispatch(likeBlog(blog))
+      blogActions.likeBlog(blog)
     } catch (e) {
       setNotification({ message: e.response.data.error || e.response.status, success: false })
     }
@@ -35,7 +33,7 @@ const Blog = ({ setNotification, blog, imageSrc }) => {
   const deleteBlog = async () => {
     if (window.confirm(`Delete blog ${blog.title} by ${blog.author}?`)) {
       try {
-        dispatch(removeBlog(blog))
+        blogActions.removeBlog(blog)
         setNotification({ message: `Deleted blog ${blog.title} by ${blog.author}.`, success: true })
       } catch (e) {
         if (e.response.status === 401) {
@@ -101,7 +99,7 @@ const Blog = ({ setNotification, blog, imageSrc }) => {
                   <Button className='mb-1' variant='primary' onClick={viewComments}>view comments</Button>
                 </div>
                 <div>
-                  {blog.user.username === user.username &&
+                  {blog.user.username === $user.username &&
                     <Button variant='danger' onClick={deleteBlog}>remove</Button>
                   }
                 </div>

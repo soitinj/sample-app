@@ -1,16 +1,14 @@
-import { useDispatch } from 'react-redux'
-import { logout } from '../reducers/userReducer'
 import LogoutButton from './LogoutButton'
-import { useSelector } from 'react-redux'
+import { useStore } from '@nanostores/react'
+import { userStore, logout } from '../nanostores/userStore'
+
 
 const LoginHeader = () => {
 
-  const dispatch = useDispatch()
-
-  const user = useSelector(({ user }) => user)
+  const user = useStore(userStore)
 
   const logoutHandler = () => {
-    dispatch(logout())
+    logout()
   }
 
   return (

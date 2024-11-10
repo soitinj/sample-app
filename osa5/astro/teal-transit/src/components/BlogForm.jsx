@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import Header from './Header'
 import { Button, Form } from 'react-bootstrap'
-import { useDispatch } from 'react-redux'
-import { createBlog } from '../reducers/blogReducer'
+import blogActions from '../nanostores/blogStore'
 
 const BlogForm = ({ hideForm, setNotification }) => {
 
@@ -11,12 +10,11 @@ const BlogForm = ({ hideForm, setNotification }) => {
   const [url, setUrl] = useState('')
   const [text, setText] = useState('')
   const [linkType, setLinkType] = useState('text')
-  const dispatch = useDispatch()
 
   const handleCreate = async (e) => {
     e.preventDefault()
     try {
-      dispatch(createBlog({ title, author, url, linkType, text }))
+      blogActions.createBlog({ title, author, url, linkType, text })
       setNotification({ message: `Blog ${title} by ${author} created.`, success: true })
       hideForm()
     } catch (e) {

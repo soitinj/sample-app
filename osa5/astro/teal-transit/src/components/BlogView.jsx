@@ -6,12 +6,13 @@ import BlogForm from './BlogForm'
 import Togglable from './Togglable'
 import IGFeed from './IGFeed'
 import SimpleTextFilter from './SimpleTextFilter'
-import { useSelector } from 'react-redux'
+import { useStore } from '@nanostores/react'
+import { blogStore } from '../nanostores/blogStore'
+import { userStore } from '../nanostores/userStore'
 
 const BlogView = ({ header, setNotification, byUser, igFeed }) => {
-  const blogs = useSelector(({ blogs, user }) => {
-    return byUser ? blogs.filter(blog => blog.user.username === user?.username) : blogs
-  })
+  const $user = useStore(userStore)
+  const $blogs = byUser ? useStore(blogStore).filter(b => b.user.username === $user?.username) : useStore(blogStore)
   const blogCreateRef = useRef()
   const [filteredBlogs, setFilteredBlogs] = useState(null)
 
@@ -23,8 +24,8 @@ const BlogView = ({ header, setNotification, byUser, igFeed }) => {
           <Togglable buttonVariant='success' buttonLabel='create new blog' ref={blogCreateRef}>
             <BlogForm hideForm={() => blogCreateRef.current.toggleVisibility()} setNotification={setNotification}></BlogForm>
           </Togglable>
-          <SimpleTextFilter data={blogs} setData={setFilteredBlogs} filterLabel='blogs' filterField='title'></SimpleTextFilter>
-          <BlogList setNotification={setNotification} blogs={filteredBlogs || blogs}></BlogList>
+          <SimpleTextFilter data={$blogs} setData={setFilteredBlogs} filterLabel='blogs' filterField='title'></SimpleTextFilter>
+          <BlogList setNotification={setNotification} blogs={filteredBlogs || $blogs}></BlogList>
         </div>
         {igFeed?.postIds && (
           <div className='col-md-3'>

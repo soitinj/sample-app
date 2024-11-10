@@ -1,27 +1,20 @@
 import { useState, useEffect } from 'react'
-import { setToken } from './libs/util'
-import loginService from './services/auth'
 import Header from './components/Header'
 import Notification from './components/Notification'
 import LoginPage from './components/LoginPage'
 import MainContent from './components/MainContent'
-import { useDispatch } from 'react-redux'
-import { login, logout, userFromCache } from './reducers/userReducer'
-import { useSelector } from 'react-redux'
+import userActions from './nanostores/userStore'
 
-const App = () => {
+const App = ({ loginPage }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [notification, setNotification] = useState({ message: '', success: true })
   const [showNotif, setShowNotif] = useState(false)
 
-  const dispatch = useDispatch()
-  const user = useSelector(({ user }) => user)
-
   useEffect(() => {
     const cachedUser = window.localStorage.getItem('bloglistUser')
     if (cachedUser) {
-      dispatch(userFromCache(cachedUser))
+      userActions.userFromCache(cachedUser)
     }
   }, [])
 
@@ -35,7 +28,9 @@ const App = () => {
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      dispatch(login(username, password))
+      console.log(username)
+      userActions.login(username, password)
+      window.location.href = '/'
     } catch (exception) {
       setNotification({ message: 'invalid credentials', success: false })
     } finally {
@@ -65,7 +60,6 @@ const App = () => {
 
   const tabs = () => {
     return <MainContent
-      user={user}
       setNotification={setNotification} />
     /*return (
       <>
@@ -88,8 +82,8 @@ const App = () => {
   return (
     <div>
       <Header text={'Sample App'} top={true}></Header>
-      {!user && loginForm()}
-      {user && tabs()}
+      {loginPage && loginForm()}
+      {!loginPage && tabs()}
       <Notification notification={notification} show={showNotif}></Notification>
     </div>
   )
