@@ -1,6 +1,6 @@
 let token = null
 
-export const hostURL = 'http://localhost:3003'
+export const hostURL = import.meta.env(VITE_API_URL)
 
 export const setToken = (newToken) => {
   token = `Bearer ${newToken}`
