@@ -1,5 +1,7 @@
 let token = null
 
+export const hostURL = 'http://localhost:3003'
+
 export const setToken = (newToken) => {
   token = `Bearer ${newToken}`
 }
