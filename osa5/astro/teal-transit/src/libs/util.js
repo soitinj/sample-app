@@ -1,6 +1,6 @@
 let token = null
 
-export const hostURL = import.meta.env(VITE_API_URL)
+export const hostURL = import.meta.env.PUBLIC_API_URL
 
 export const setToken = (newToken) => {
   token = `Bearer ${newToken}`
