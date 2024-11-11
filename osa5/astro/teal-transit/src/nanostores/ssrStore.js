@@ -1,14 +1,14 @@
-
+import atom from 'nanostores'
 // Create the store
-export let ssrStore = { blogs: [], use: false }
+export const ssrStore = atom({ blogs: [], use: false })
 
 // Action creators
 export const setBlogs = (blogs) => {
-  if (blogs.length > 0) ssrStore = { blogs: blogs, use: true }
+  if (blogs.length > 0) ssrStore.set({ blogs: blogs, use: true })
 }
 
 export const disable = () => {
-  ssrStore = {...ssrStore, use: false}
+  ssrStore.set({...ssrStore, use: false})
 }
 
 export default { setBlogs, disable }
