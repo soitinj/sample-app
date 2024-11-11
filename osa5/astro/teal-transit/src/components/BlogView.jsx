@@ -12,7 +12,8 @@ import { userStore } from '../nanostores/userStore'
 
 const BlogView = ({ header, setNotification, byUser, igFeed }) => {
   const $user = useStore(userStore)
-  const $blogs = byUser ? useStore(blogStore).filter(b => b.user.username === $user?.username) : useStore(blogStore)
+  const $blogs = useStore(blogStore)
+  const $userBlogs = byUser ? $blogs.filter(b => b.user.username === $user?.username) : $blogs
   const blogCreateRef = useRef()
   const [filteredBlogs, setFilteredBlogs] = useState(null)
 
@@ -24,8 +25,8 @@ const BlogView = ({ header, setNotification, byUser, igFeed }) => {
           <Togglable buttonVariant='success' buttonLabel='create new blog' ref={blogCreateRef}>
             <BlogForm hideForm={() => blogCreateRef.current.toggleVisibility()} setNotification={setNotification}></BlogForm>
           </Togglable>
-          <SimpleTextFilter data={$blogs} setData={setFilteredBlogs} filterLabel='blogs' filterField='title'></SimpleTextFilter>
-          <BlogList setNotification={setNotification} blogs={filteredBlogs || $blogs}></BlogList>
+          <SimpleTextFilter data={$userBlogs} setData={setFilteredBlogs} filterLabel='blogs' filterField='title'></SimpleTextFilter>
+          <BlogList setNotification={setNotification} blogs={filteredBlogs || $userBlogs}></BlogList>
         </div>
         {igFeed?.postIds && (
           <div className='col-md-3'>

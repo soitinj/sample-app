@@ -1,21 +1,14 @@
-import { atom } from 'nanostores'
 
-// Track if initial data was server-side rendered
-export const ssrStore = atom({
-  blogs: false,
-  user: false
-})
+// Create the store
+export let ssrStore = { blogs: [], use: false }
 
-// Helper to mark data as SSR initialized
-export const markSSRInitialized = (dataType) => {
-  const current = ssrStore.get()
-  ssrStore.set({
-    ...current,
-    [dataType]: true
-  })
+// Action creators
+export const setBlogs = (blogs) => {
+  if (blogs.length > 0) ssrStore = { blogs: blogs, use: true }
 }
 
-// Helper to check if specific data was SSR initialized
-export const isSSRInitialized = (dataType) => {
-  return ssrStore.get()[dataType]
+export const disable = () => {
+  ssrStore = {...ssrStore, use: false}
 }
+
+export default { setBlogs, disable }

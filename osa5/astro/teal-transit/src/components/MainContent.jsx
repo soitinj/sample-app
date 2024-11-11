@@ -5,14 +5,14 @@ import StatsPage from './StatsPage'
 import BlogView from './BlogView'
 import AboutPage from './AboutPage'
 import feedService from '../services/feed'
-import { getBlogs } from '../nanostores/blogStore'
+//import { getBlogs } from '../nanostores/blogStore'
 
 const MainContent = ({ setNotification }) => {
 
   const [igFeed, setIgFeed] = useState({ postIds: [] })
 
   useEffect(() => {
-    getBlogs()
+    //getBlogs()
   }, [])
 
   useEffect(() => {

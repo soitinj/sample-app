@@ -4,6 +4,7 @@ import Notification from './components/Notification'
 import LoginPage from './components/LoginPage'
 import MainContent from './components/MainContent'
 import userActions from './nanostores/userStore'
+import { getBlogs } from './nanostores/blogStore'
 
 const App = ({ loginPage }) => {
   const [username, setUsername] = useState('')
