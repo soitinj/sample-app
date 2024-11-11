@@ -9,8 +9,10 @@ import SimpleTextFilter from './SimpleTextFilter'
 import { useStore } from '@nanostores/react'
 import { blogStore } from '../nanostores/blogStore'
 import { userStore } from '../nanostores/userStore'
+import { feedStore } from '../nanostores/feedStore'
 
 const BlogView = ({ header, setNotification, byUser, igFeed }) => {
+  const $feed = useStore(feedStore)
   const $user = useStore(userStore)
   const $blogs = useStore(blogStore)
   const $userBlogs = byUser ? $blogs.filter(b => b.user.username === $user?.username) : $blogs
@@ -28,10 +30,10 @@ const BlogView = ({ header, setNotification, byUser, igFeed }) => {
           <SimpleTextFilter data={$userBlogs} setData={setFilteredBlogs} filterLabel='blogs' filterField='title'></SimpleTextFilter>
           <BlogList setNotification={setNotification} blogs={filteredBlogs || $userBlogs}></BlogList>
         </div>
-        {igFeed?.postIds && (
+        {igFeed && $feed.postIds.length > 0 && (
           <div className='col-md-3'>
             <h3>Very Important Feed</h3>
-            <IGFeed postIds={igFeed.postIds}></IGFeed>
+            <IGFeed postIds={$feed.postIds}></IGFeed>
           </div>
         )}
       </div>

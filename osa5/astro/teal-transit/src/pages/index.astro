@@ -6,11 +6,20 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/index.css'
 import App from '../App'
 import { setBlogs } from '../nanostores/blogStore'
+import { setFeed } from '../nanostores/feedStore'
 
-const response = await fetch(`http://localhost:3003/api/blogs`)
-const blogs = await response.json()
+const blogPromise = fetch(`http://localhost:3003/api/blogs`)
+const feedPromise = fetch(`http://localhost:3003/api/feed`)
+const [blogResponse, feedResponse] = await Promise.all([blogPromise, feedPromise])
+
+const blogs = await blogResponse.json()
 setBlogs(blogs)
 const initialBlogs = JSON.stringify(blogs)
+
+const feed = await feedResponse.json()
+setFeed(feed)
+const initialFeed = JSON.stringify(feed)
+
 ---
 
 <Layout title="Sample App">
@@ -20,6 +29,7 @@ const initialBlogs = JSON.stringify(blogs)
   <ConfettiButton></ConfettiButton>
 </Layout>
 
-<script is:inline define:vars={{ initialBlogs }}>
+<script is:inline define:vars={{ initialBlogs, initialFeed }}>
   window.BLOGS_INITIAL_DATA = initialBlogs
+  window.FEED_INITIAL_DATA = initialFeed
 </script>

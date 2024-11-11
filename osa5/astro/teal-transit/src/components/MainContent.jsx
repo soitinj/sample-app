@@ -9,8 +9,6 @@ import feedService from '../services/feed'
 
 const MainContent = ({ setNotification }) => {
 
-  const [igFeed, setIgFeed] = useState({ postIds: [] })
-
   useEffect(() => {
     //getBlogs()
   }, [])
@@ -25,6 +23,7 @@ const MainContent = ({ setNotification }) => {
   })
 
   useEffect(() => {
+    /*
     const fetchFeed = async () => {
       try {
         const ps = await feedService.getAll()
@@ -33,7 +32,7 @@ const MainContent = ({ setNotification }) => {
         setNotification({ message: e.response.data.error || e.response.status, success: false })
       }
     }
-    fetchFeed()
+    fetchFeed()*/
   }, [])
 
   const scrollToEnd = () => {
@@ -54,7 +53,7 @@ const MainContent = ({ setNotification }) => {
         unmountOnExit={ true }
       >
         <Tab eventKey='blogs' title='Blogs'>
-          <BlogView header='blogs' byUser={false} setNotification={setNotification} igFeed={igFeed}></BlogView>
+          <BlogView header='blogs' byUser={false} setNotification={setNotification} igFeed={true}></BlogView>
         </Tab>
         <Tab eventKey='my-blogs' title='My Blogs'>
           <BlogView header='my blogs' byUser={true} setNotification={setNotification}></BlogView>

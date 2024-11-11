@@ -1,6 +1,7 @@
 import { InstagramEmbed } from 'react-social-media-embed'
 
 const IGFeed = ({ postIds }) => {
+
   return (
     <div>
       {[...postIds].map(postId =>
