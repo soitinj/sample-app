@@ -1,6 +1,7 @@
 import axios from 'axios'
-import { getConfig } from '../libs/util'
-const baseUrl = '/api/blogs'
+import { hostURL, getConfig } from '../libs/util'
+
+const baseUrl = `${hostURL}/api/blogs`
 
 const getAll = async () => {
   const response = await axios.get(baseUrl)

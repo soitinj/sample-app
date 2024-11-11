@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react'
-import { setToken } from './libs/util'
-import loginService from './services/auth'
 import Header from './components/Header'
 import Notification from './components/Notification'
 import LoginPage from './components/LoginPage'
 import MainContent from './components/MainContent'
 import { useDispatch } from 'react-redux'
-import { login, logout, userFromCache } from './reducers/userReducer'
+import { login, userFromCache } from './reducers/userReducer'
 import { useSelector } from 'react-redux'
 
 const App = () => {

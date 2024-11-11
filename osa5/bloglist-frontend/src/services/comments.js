@@ -1,6 +1,7 @@
 import axios from 'axios'
-import { getConfig } from '../libs/util'
-const baseUrl = '/api/comments'
+import { hostURL, getConfig } from '../libs/util'
+
+const baseUrl = `${hostURL}/api/comments`
 
 const get = async (blogId) => {
   const config = getConfig()
