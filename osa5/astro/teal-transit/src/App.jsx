@@ -4,7 +4,6 @@ import Notification from './components/Notification'
 import LoginPage from './components/LoginPage'
 import MainContent from './components/MainContent'
 import userActions from './nanostores/userStore'
-import { getBlogs } from './nanostores/blogStore'
 
 const App = ({ loginPage }) => {
   const [username, setUsername] = useState('')
@@ -30,7 +29,7 @@ const App = ({ loginPage }) => {
     event.preventDefault()
     try {
       console.log(username)
-      userActions.login(username, password)
+      await userActions.login(username, password)
       window.location.href = '/'
     } catch (exception) {
       setNotification({ message: 'invalid credentials', success: false })

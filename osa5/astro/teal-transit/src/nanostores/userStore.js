@@ -14,7 +14,7 @@ export const removeUser = () => {
 }
 
 // Async actions
-export const logout = async () => {
+export const logout = () => {
   window.localStorage.clear()
   removeUser()
 }
@@ -26,7 +26,7 @@ export const login = async (username, password) => {
   setUser(user)
 }
 
-export const userFromCache = async (cachedUser) => {
+export const userFromCache = (cachedUser) => {
   const user = JSON.parse(cachedUser)
   setToken(user.token)
   setUser(user)
