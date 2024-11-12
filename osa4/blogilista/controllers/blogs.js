@@ -1,9 +1,13 @@
 const blogsRouter = require('express').Router()
+const sharp = require('sharp')
+const { default: axios } = require('axios')
 const Blog = require('../models/blog')
+const Thumbnail = require('../models/thumbnail')
 
 blogsRouter.get('/', async (_request, response) => {
   const blogs = await Blog.find({})
     .populate('user', { username: 1, name: 1 })
+    .populate('thumbnail', { imgData: 1 })
   response.status(200).json(blogs)
 })
 
@@ -11,9 +15,17 @@ blogsRouter.post('/', async (request, response) => {
   /*if (request.body.title === undefined) {
     response.status(400).json({ error: 'title not given' })
   }*/
-  const newBlog = { ...request.body, added: new Date(), likes: request.body.likes || 0, user: request.user.id }
+  const newBlog = { ...request.body, added: new Date(), likes: 0, user: request.user.id }
   const blog = new Blog(newBlog)
   result = await blog.save()
+  if (request.body.linkType === 'img') {
+    // create thumbnail
+    const imgfetch = await axios.get(request.body.url, { responseType: 'arraybuffer' })
+    const resizedImg = await sharp(imgfetch.data)
+      .resize(100, 100, { fit: 'contain', position: 'center' })
+    const img = new Thumbnail({ imgData: resizedImg.toString('base64') })
+    imgResult = await img.save()
+  }
   response.status(201).json(result)
 })
 
@@ -46,8 +58,13 @@ blogsRouter.put('/:id', async (request, response) => {
 })
 
 blogsRouter.post('/:id/like', async (request, response) => {
-  await Blog.findByIdAndUpdate(request.params.id, { $inc: { likes: 1 } }, { new: true, runValidators: true, context: 'query' })
-  response.status(204).end()
+  const blog = await Blog.findByIdAndUpdate(request.params.id, { $inc: { likes: 1 } }, { new: true, runValidators: true, context: 'query' })
+    .populate('user', { username: 1, name: 1 })
+  if (blog) {
+    response.status(201).json(blog)
+  } else {
+    response.status(404).end()
+  }
 })
 
 module.exports = blogsRouter

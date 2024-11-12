@@ -1,0 +1,15 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import ConfettiButton from '../../components/ConfettiButton.astro'
+import UsernameHeader from '../../components/UsernameHeader.jsx'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import '../../styles/index.css'
+import App from '../../App'
+---
+
+<Layout title="Sample App">
+  <!-- Both UsernameHeader and App are synchronized to Nanostores state -->
+  <UsernameHeader client:load></UsernameHeader>
+  <App loginPage={true} client:load />
+  <ConfettiButton></ConfettiButton>
+</Layout>

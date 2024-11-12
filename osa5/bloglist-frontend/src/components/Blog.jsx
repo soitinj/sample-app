@@ -1,28 +1,32 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import blogService from '../services/blogs'
 import commentService from '../services/comments'
-import { Card, Button } from 'react-bootstrap'
+import { Card, Button, ListGroup } from 'react-bootstrap'
 import CommentView from './CommentView'
 import moment from 'moment'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useDispatch } from 'react-redux'
+import { removeBlog, likeBlog } from '../reducers/blogReducer'
+import { useSelector } from 'react-redux'
 
-const Blog = ({ user, setNotification, updateBlogs, blog }) => {
+const Blog = ({ setNotification, blog, imageSrc }) => {
   const [toggleInfo, setToggleInfo] = useState(false)
   const [commentsShow, setCommentsShow] = useState(false)
   const [ButtonLabel, setButtonLabel] = useState('view')
-  const [likes, setLikes] = useState(blog.likes)
   const [comments, setComments] = useState([])
+
+  const dispatch = useDispatch()
+
+  const user = useSelector(({ user }) => user)
 
   const toggleBlogInfo = () => {
     setButtonLabel(toggleInfo ? 'view' : 'hide')
     setToggleInfo(!toggleInfo)
   }
 
-  const likeBlog = async () => {
+  const rateBlog = async () => {
     try {
-      await blogService.like(blog.id)
-      setLikes(likes + 1)
+      dispatch(likeBlog(blog))
     } catch (e) {
       setNotification({ message: e.response.data.error || e.response.status, success: false })
     }
@@ -31,8 +35,7 @@ const Blog = ({ user, setNotification, updateBlogs, blog }) => {
   const deleteBlog = async () => {
     if (window.confirm(`Delete blog ${blog.title} by ${blog.author}?`)) {
       try {
-        await blogService.remove(blog.id)
-        await updateBlogs()
+        dispatch(removeBlog(blog))
         setNotification({ message: `Deleted blog ${blog.title} by ${blog.author}.`, success: true })
       } catch (e) {
         if (e.response.status === 401) {
@@ -59,32 +62,55 @@ const Blog = ({ user, setNotification, updateBlogs, blog }) => {
   }
 
   return (
-    <Card style={{ width: '18rem' }} className='border border-secondary rounded info'>
-      <Card.Body>
-        <Card.Title>{blog.title}</Card.Title>
-        <Card.Subtitle className='text-muted'>{blog.author}</Card.Subtitle>
-        <AnimatePresence>
-          {toggleInfo && (
-            <Card.Text as='div'>
-              <motion.div
-                initial={{ opacity: 0, x: -100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 100 }}
-                transition={{ duration: 0.5, ease: "backOut" }}
-              >
-                <div>likes: {likes} <Button variant='success' onClick={likeBlog}>like 👍</Button></div>
-                <div>added by: {blog.user.name}</div>
-                <a href={blog.url}>{blog.url}</a>
-                <div><Button className='mb-1' variant='primary' onClick={viewComments}>view comments</Button></div>
-                {blog.user.username === user.username &&
-                  <div><Button variant='danger' onClick={deleteBlog}>remove</Button></div>
-                }
-              </motion.div>
-            </Card.Text>
-          )}
-        </AnimatePresence>
-      </Card.Body>
-      <Card.Footer>
+    <Card style={{ width: '19rem', height: '100%' }} className='border border-secondary rounded info'>
+      <img src={imageSrc} loading='lazy' decoding='async' style={{ objectFit: 'contain', objectPosition: 'left', maxHeight: '4rem' }}></img>
+      <Card.Title style={{ minHeight: '3rem' }}>{blog.title}</Card.Title>
+      <Card.Subtitle className='text-muted'>{blog.user.username}</Card.Subtitle>
+      <AnimatePresence>
+        {toggleInfo && (
+          <motion.div
+            initial={{ opacity: 0, x: -100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 100 }}
+            transition={{ duration: 0.5, ease: "backOut" }}
+          >
+            { blog.text &&
+              <Card.Body className='border-top bg-light'>
+                <Card.Text>{blog.text}</Card.Text>
+              </Card.Body>
+            }
+            <ListGroup className='border-top' variant='flush'>
+              <ListGroup.Item>
+                added by: {blog.user.name}
+              </ListGroup.Item>
+              { blog.author && 
+                <ListGroup.Item>
+                  Original author: {blog.author}
+                </ListGroup.Item>
+              }
+              {blog.url &&
+                <ListGroup.Item>
+                  <Card.Link href={blog.url}>{blog.url}</Card.Link>
+                </ListGroup.Item>
+              }
+              <ListGroup.Item>
+                <div>
+                  <Button className='mb-1' variant='success' onClick={rateBlog}>like 👍</Button> likes: {blog.likes}
+                </div>
+                <div>
+                  <Button className='mb-1' variant='primary' onClick={viewComments}>view comments</Button>
+                </div>
+                <div>
+                  {blog.user.username === user.username &&
+                    <Button variant='danger' onClick={deleteBlog}>remove</Button>
+                  }
+                </div>
+              </ListGroup.Item>
+            </ListGroup>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <Card.Footer style={{ backgroundColor: '#e0ffff' }}>
         <Button onClick={toggleBlogInfo}>{ButtonLabel}</Button>
         <small className='p-2 text-muted'>Added {moment(blog.added).fromNow()}</small>
       </Card.Footer>
@@ -102,7 +128,6 @@ const Blog = ({ user, setNotification, updateBlogs, blog }) => {
 
 Blog.propTypes = {
   setNotification: PropTypes.func.isRequired,
-  updateBlogs: PropTypes.func.isRequired,
   blog: PropTypes.object.isRequired
 }
 
