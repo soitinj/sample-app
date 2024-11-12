@@ -4,7 +4,7 @@ The sample React app is contained within the ```osa5``` folder.
 
 ## Running the app
 ### Running the frontend
-Open a terminal window. Navigate to ```osa5/bloglist-frontend```
+Open a terminal window. Navigate to ```osa5/bloglist-frontend/``` (Pure React+Vite CSR version) or ```osa5/astro/teal-transit/``` (Astro SSG/SSR version)
 
 Run:
 ```sh
