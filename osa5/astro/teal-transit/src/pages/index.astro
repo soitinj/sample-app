@@ -8,8 +8,9 @@ import App from '../App'
 import { setBlogs } from '../nanostores/blogStore'
 import { setFeed } from '../nanostores/feedStore'
 
-const blogPromise = fetch(`http://localhost:3003/api/blogs`)
-const feedPromise = fetch(`http://localhost:3003/api/feed`)
+const baseURL = import.meta.env.PUBLIC_API_URL
+const blogPromise = fetch(`${baseURL}/api/blogs`)
+const feedPromise = fetch(`${baseURL}/api/feed`)
 const [blogResponse, feedResponse] = await Promise.all([blogPromise, feedPromise])
 
 const [blogs, feed] = await Promise.all([blogResponse.json(), feedResponse.json()])
