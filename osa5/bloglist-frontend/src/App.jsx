@@ -17,7 +17,6 @@ const App = () => {
   const user = useSelector(({ user }) => user)
 
   useEffect(() => {
-    const cachedUser = window.localStorage.getItem('bloglistUser')
     if (cachedUser) {
       dispatch(userFromCache(cachedUser))
     }
