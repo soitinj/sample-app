@@ -12,11 +12,10 @@ const blogPromise = fetch(`http://localhost:3003/api/blogs`)
 const feedPromise = fetch(`http://localhost:3003/api/feed`)
 const [blogResponse, feedResponse] = await Promise.all([blogPromise, feedPromise])
 
-const blogs = await blogResponse.json()
+const [blogs, feed] = await Promise.all([blogResponse.json(), feedResponse.json()])
 setBlogs(blogs)
 const initialBlogs = JSON.stringify(blogs)
 
-const feed = await feedResponse.json()
 setFeed(feed)
 const initialFeed = JSON.stringify(feed)
 
