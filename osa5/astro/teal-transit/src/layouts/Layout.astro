@@ -21,6 +21,8 @@ const { title } = Astro.props;
 	</body>
 </html>
 <script>
+	// npm-modules can be imported in script-tags
 	import smoothscroll from 'smoothscroll-polyfill'
+	// kickoff the polyfill, enabling smooth-scrolling on unsupported browsers
 	smoothscroll.polyfill()
 </script>
