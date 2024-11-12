@@ -22,6 +22,12 @@ export default defineConfig({
       setupFiles: './testSetup.js',
     }  
   },
+
+  /* SSR build does not support exposing --host through astro preview
+  To listen all network interfaces, entry.mjs needs to be edited after build.
+  entry.mjs: _args = { ..., "host" :true }
+  Then, run server through ./node/dist/server/entry.mjs
+  */
   // To enable SSR, output needs to be 'server' or 'hybrid'
   output: 'static',
   adapter: node({
