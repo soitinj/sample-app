@@ -2,7 +2,7 @@ import { atom } from 'nanostores'
 import blogService from '../services/blogs'
 
 // Create the store
-export const blogStore = atom((typeof window !== 'undefined' && window.BLOGS_INITIAL_DATA) ? JSON.parse(window.BLOGS_INITIAL_DATA) : [])
+export const blogStore = atom((typeof window !== 'undefined' && window.SA_INITIAL_DATA_BLOGS) ? JSON.parse(window.SA_INITIAL_DATA_BLOGS) : [])
 
 // Action creators
 export const setBlogs = (blogs) => {
