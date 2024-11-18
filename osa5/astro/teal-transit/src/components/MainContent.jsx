@@ -1,13 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Tabs, Tab, Button } from 'react-bootstrap'
 import LoginHeader from './LoginHeader'
 import StatsPage from './StatsPage'
 import BlogView from './BlogView'
 import AboutPage from './AboutPage'
-import feedService from '../services/feed'
+import { useIsMobile } from '../hooks/useIsMobile'
 //import { getBlogs } from '../nanostores/blogStore'
 
 const MainContent = ({ setNotification }) => {
+
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     //getBlogs()
@@ -45,7 +47,14 @@ const MainContent = ({ setNotification }) => {
   return (
     <>
       <LoginHeader></LoginHeader>
-      <Button onClick={scrollToEnd}>Scroll to bottom</Button>
+      { isMobile &&
+        <div>
+          In mobile 📱 view!
+          <Button onClick={scrollToEnd}>Scroll to bottom</Button>
+        </div>
+      } { !isMobile &&
+        <div>In desktop 💻 view!</div>
+      }
       <Tabs
         defaultActiveKey='blogs'
         id='main-tabs'
