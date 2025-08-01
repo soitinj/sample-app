@@ -1,4 +1,4 @@
-# full-stack-open-soitinj
+# sample-app
 Simple CSR React project to test migrating to Astro/React or Next.js with.
 The sample React app is contained within the ```osa5``` folder.
 
