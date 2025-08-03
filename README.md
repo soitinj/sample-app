@@ -8,6 +8,11 @@ The sample-app is a social platform where users can posts links, text posts, or 
 The project is built for comparison of meta-frameworks and different rendering strategies. Thus the frontend is available in two forms: with Astro+React (for SSR/SSG), and pure React+Vite (for CSR)
 The backend is running on node.js using the express.js web application framework. The app uses the old-fashioned MongoDB as the database.
 
+![Alt text](docs/sample-app.png)
+Snapshot of the sample-app
+
+The sample-app may appear simple, but it contains thousands of posts for testing. Without other optimization techniques, these may take a moment to load using purely CSR.
+
 ## Running the app
 ### Running the frontend
 Open a terminal window. Navigate to ```frontend/sample-app-frontend/``` (Pure React+Vite CSR version) or ```frontend/astro/teal-transit/``` (Astro SSG/SSR version)
