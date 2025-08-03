@@ -1,6 +1,6 @@
 # sample-app
 Simple CSR React project to test migrating to Astro/React or Next.js with.
-The sample React app is contained within the ```osa5``` folder.
+The sample React app is contained within the ```frontend``` folder.
 
 ## Description
 The sample-app is a social platform where users can posts links, text posts, or images. Other users can then comment on these images and rate them. (I.e. reddit-like platform).
@@ -10,7 +10,7 @@ The backend is running on node.js using the express.js web application framework
 
 ## Running the app
 ### Running the frontend
-Open a terminal window. Navigate to ```osa5/bloglist-frontend/``` (Pure React+Vite CSR version) or ```osa5/astro/teal-transit/``` (Astro SSG/SSR version)
+Open a terminal window. Navigate to ```frontend/sample-app-frontend/``` (Pure React+Vite CSR version) or ```frontend/astro/teal-transit/``` (Astro SSG/SSR version)
 
 Run:
 ```sh
@@ -19,7 +19,7 @@ npm run dev
 ```
 
 ### Running the backend
-Open a terminal window. Navigate to ```osa4/blogilista```
+Open a terminal window. Navigate to ```backend/sample-app-backend```
 
 Create a ```.env``` file with the following structure:
 ```
